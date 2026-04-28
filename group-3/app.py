@@ -19,11 +19,11 @@ import numpy as np
 
 # zhi xiang
 import streamlit as st
-st.title("Hello World")
+st.title("Hi idk how this works LOL")
 
 # chazz
 
 # zi yi
-st.write("Hello World!")
+st.write("67676767")
 
 #

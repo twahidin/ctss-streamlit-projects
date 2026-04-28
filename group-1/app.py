@@ -1,5 +1,4 @@
-
-import streamlit as st
-
-st.write("hello world this is a smoke test")
-st.balloons()
+import streamlit as st                                                                                                                   
+from greeter import say_hello                                                                                                            
+st.title("Group N")                                                                                                                      
+say_hello()

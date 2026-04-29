@@ -9,21 +9,54 @@ Original file is located at
 
 # Group 3
 # Members
-# Leader - me
+# Leader - ziyi
 # Coders - zhixiang, chazz, ashton
 # Testers - idk
 
-import streamlit as st
-import pandas as pd
-import numpy as np
+
 
 # zhi xiang
-import streamlit as st
-st.title("Hi idk how this works LOL")
+st.write("e")
 
 # chazz
 
 # zi yi
-st.write("67676767")
+import streamlit as st
+formula = st.text_input("Enter a math equation with +,-,*,/")
+formula = formula.replace(" ","")
+
+first = ""
+last = ""
+operation = ""
+temp = -1
+for i in range(len(formula)):
+  if formula[i].isdigit() == True:
+    first += str(formula[i])
+  elif formula[i].isdigit() == False:
+    operation = str(formula[i])
+    temp = i
+    break
+  else:
+    st.write("Something bad happened")
+
+if temp != -1:
+  last = formula[temp+1:]
+  if operation == "+":
+    answer = float(first) + float(last)
+  elif operation == "-":
+    answer = float(first) - float(last)
+  elif operation == "*":
+    answer = float(first) * float(last)
+  elif operation == "/":
+    answer = float(first) / float(last)
+  else:
+    st.write("something else worse happened")
+
+  if formula != "":
+    st.write(f"The answer is {answer}")
+  else:
+    st.write("Maybe enter something correct")
+else:
+  st.write("No operator")
 
 #

@@ -21,41 +21,54 @@ Original file is located at
 
 # zi yi
 import streamlit as st
+
 formula = st.text_input("Enter a math equation with +,-,*,/")
 formula = formula.replace(" ","")
 
-first = ""
-last = ""
-operation = ""
-temp = -1
-for i in range(len(formula)):
-  if formula[i].isdigit() == True:
-    first += str(formula[i])
-  elif formula[i].isdigit() == False:
-    operation = str(formula[i])
-    temp = i
-    break
-  else:
-    st.write("Something bad happened")
+numbers = []
+operation = []
+temp_number = ""
 
-if temp != -1:
-  last = formula[temp+1:]
-  if operation == "+":
-    answer = float(first) + float(last)
-  elif operation == "-":
-    answer = float(first) - float(last)
-  elif operation == "*":
-    answer = float(first) * float(last)
-  elif operation == "/":
-    answer = float(first) / float(last)
-  else:
-    st.write("something else worse happened")
+if formula:
 
-  if formula != "":
-    st.write(f"The answer is {answer}")
-  else:
-    st.write("Maybe enter something correct")
+    for ch in formula:
+        if ch.isdigit() or ch == ".":
+            temp_number += ch
+        else:
+            numbers.append(float(temp_number))
+            operation.append(ch)
+            temp_number = ""
+
+    if temp_number != "":
+        numbers.append(float(temp_number))
+
+    # BODMAS
+    i = 0
+    while i < len(operation):
+        if operation[i] == "*" or operation[i] == "/":
+            if operation[i] == "*":
+                result = numbers[i] * numbers[i+1]
+            else:
+                result = numbers[i] / numbers[i+1]
+
+            numbers[i] = result
+            numbers.pop(i+1)
+            operation.pop(i)
+        else:
+            i += 1
+
+
+    result = numbers[0]
+
+    for i in range(len(operation)):
+        if operation[i] == "+":
+            result += numbers[i+1]
+        else:
+            result -= numbers[i+1]
+
+    st.write("The answer is:", result)
+
 else:
-  st.write("No operator")
+    st.write("Enter something first")
 
 #

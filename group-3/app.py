@@ -16,7 +16,6 @@ Original file is located at
 
 
 # zhi xiang
-st.write("e")
 
 # chazz
 

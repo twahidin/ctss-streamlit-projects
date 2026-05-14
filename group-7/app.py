@@ -8,6 +8,7 @@ Original file is located at
 """
 
 #spawn button
+import streamlit as st
 SeatColAmount=9
 SeatRowAmount=20
 SeatCol=st.columns(SeatColAmount)

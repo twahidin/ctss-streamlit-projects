@@ -1,6 +1,10 @@
 import streamlit as st
 
-col1, col2, col3, col4, col5, col6, col7, col8= st.columns(8)
+big1,big2,big3= st.columns([4,6,4])
+col1,col2,_,_ = big1.columns(4)
+_, col3, col4, col5, col6, _ = big2.columns(6)
+_, _, col7, col8 = big3.columns(4)
+
 with col1:
     N_1 = st.button("_", help = "N-1")
 with col2:

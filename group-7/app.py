@@ -31,7 +31,7 @@ if st.button("balloon (DO NOT PRESS)"):
       st.balloons()
       st.toast("balloon")
 
-
+st.write("minesweeper (seat)")
 seat = 'a'
 a,b,c,d,e,f,g,h = st.columns(8)
 
@@ -62,3 +62,7 @@ with g:
 with h:
     seat = 'h'
     st.button(f"{seat}1"),st.button(f"{seat}2"),st.button(f"{seat}3"),st.button(f"{seat}4"),st.button(f"{seat}5"),st.button(f"{seat}6"),st.button(f"{seat}7"),st.button(f"{seat}8")
+
+if st.button(f'{Seat}7') == "h7":
+    for loop in range(100):
+        st.snow()

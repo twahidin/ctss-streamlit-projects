@@ -1,9 +1,9 @@
 import streamlit as st
 
-big1,big2,big3= st.columns([3,6,3])
-col1,col2,_ = big1.columns(3)
+big1,big2,big3= st.columns([2,6,2])
+col1,col2 = big1.columns(2)
 _, col3, col4, col5, col6, _ = big2.columns(6)
-_, col7, col8 = big3.columns(3)
+col7, col8 = big3.columns(2)
 
 with col1:
     N_1 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-1")

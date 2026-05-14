@@ -14,4 +14,4 @@ SeatRowAmount=20
 SeatCol=st.columns(SeatColAmount)
 for loop in range(len(SeatCol)):
   for loop2 in range(SeatRowAmount):
-    st.button(f'{chr(ord(a)+loop)}{loop2+1}')
+    st.button(f'{chr(ord('a')+loop)}{loop2+1}')

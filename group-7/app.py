@@ -24,9 +24,12 @@ for loop in range(len(name)):
         status = False
 if status == False:
     st.warning("why is there number in your name")
-if st.button("balloon"):
-    for loop in range(10):
+
+
+if st.button("balloon (DO NOT PRESS)"):
+    for loop in range(100):
       st.balloons()
+      st.toast("balloon")
 
 
 

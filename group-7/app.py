@@ -32,16 +32,33 @@ if st.button("balloon (DO NOT PRESS)"):
       st.toast("balloon")
 
 
+seat = 'a'
+a,b,c,d,e,f,g,h = st.columns(8)
 
-import streamlit as st
 
-col1, col2, col3 = st.columns(3)
+with a:
+    seat='a'
+    st.button(f"{seat}1"),st.button(f"{seat}2"),st.button(f"{seat}3"),st.button(f"{seat}4"),st.button(f"{seat}5"),st.button(f"{seat}6"),st.button(f"{seat}7"),st.button(f"{seat}8"),
 
-with col1:
-    st.header("A cat")
+with b:
+    seat = 'b'
+    st.button(f"{seat}1"),st.button(f"{seat}2"),st.button(f"{seat}3"),st.button(f"{seat}4"),st.button(f"{seat}5"),st.button(f"{seat}6"),st.button(f"{seat}7"),st.button(f"{seat}8")
 
-with col2:
-    st.header("A dog")
-
-with col3:
-    st.header("An owl")
+with c:
+    seat = 'c'
+    st.button(f"{seat}1"),st.button(f"{seat}2"),st.button(f"{seat}3"),st.button(f"{seat}4"),st.button(f"{seat}5"),st.button(f"{seat}6"),st.button(f"{seat}7"),st.button(f"{seat}8")
+with d:
+    seat = 'd'
+    st.button(f"{seat}1"),st.button(f"{seat}2"),st.button(f"{seat}3"),st.button(f"{seat}4"),st.button(f"{seat}5"),st.button(f"{seat}6"),st.button(f"{seat}7"),st.button(f"{seat}8")
+with e:
+    seat = 'e'
+    st.button(f"{seat}1"),st.button(f"{seat}2"),st.button(f"{seat}3"),st.button(f"{seat}4"),st.button(f"{seat}5"),st.button(f"{seat}6"),st.button(f"{seat}7"),st.button(f"{seat}8")
+with f:
+    seat = 'f'
+    st.button(f"{seat}1"),st.button(f"{seat}2"),st.button(f"{seat}3"),st.button(f"{seat}4"),st.button(f"{seat}5"),st.button(f"{seat}6"),st.button(f"{seat}7"),st.button(f"{seat}8")
+with g:
+    seat = 'g'
+    st.button(f"{seat}1"),st.button(f"{seat}2"),st.button(f"{seat}3"),st.button(f"{seat}4"),st.button(f"{seat}5"),st.button(f"{seat}6"),st.button(f"{seat}7"),st.button(f"{seat}8")
+with h:
+    seat = 'h'
+    st.button(f"{seat}1"),st.button(f"{seat}2"),st.button(f"{seat}3"),st.button(f"{seat}4"),st.button(f"{seat}5"),st.button(f"{seat}6"),st.button(f"{seat}7"),st.button(f"{seat}8")

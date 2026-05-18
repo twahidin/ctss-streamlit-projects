@@ -34,16 +34,16 @@ if st.button("balloon (DO NOT PRESS)"):
       st.balloons()
       st.toast("balloon")
 
-st.write("### Airplane Seat Selection (2-3-2 Layout)")
+st.write("### Economy Class (2-3-2 Layout)")
 
 # Initialize session state for selected seats if not already present
 if 'selected_seats' not in st.session_state:
     st.session_state.selected_seats = set()
 
-# Define rows
+# Define Economy rows
 seat_rows = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
-# For each row, create columns for 2-3-2 layout
+# For each Economy row, create columns for 2-3-2 layout
 for row_label in seat_rows:
     st.write(f"**Row {row_label.upper()}**")
 
@@ -64,9 +64,9 @@ for row_label in seat_rows:
             else:
                 if seat_id in st.session_state.selected_seats:
                     st.session_state.selected_seats.remove(seat_id)
-        seat_idx_counter += 1
+        seat_idx_counter += 2
 
-    seat_idx_counter += 1 # Skip aisle column
+    seat_idx_counter += 2 # Skip aisle column
 
     # Section 2: 3 seats (columns 3, 4, 5)
     for col_num in [3, 4, 5]:
@@ -79,9 +79,9 @@ for row_label in seat_rows:
             else:
                 if seat_id in st.session_state.selected_seats:
                     st.session_state.selected_seats.remove(seat_id)
-        seat_idx_counter += 1
+        seat_idx_counter += 2
 
-    seat_idx_counter += 1 # Skip aisle column
+    seat_idx_counter += 2 # Skip aisle column
 
     # Section 3: 2 seats (columns 6, 7)
     for col_num in [6, 7]:
@@ -96,9 +96,51 @@ for row_label in seat_rows:
                     st.session_state.selected_seats.remove(seat_id)
         seat_idx_counter += 1
 
-# Display selected seats
+st.write("### Business Class (3-4 Layout)")
+
+business_seat_rows = ['z', 'y', 'x']
+for row_label in business_seat_rows:
+    st.write(f"**Row {row_label.upper()}**")
+
+    # Create columns for 3-4 layout (3 seats, aisle, 4 seats)
+    seat_display_cols_business = st.columns([1, 1, 1, 0.2, 1, 1, 1, 1])
+
+    seat_idx_counter_business = 0
+
+    # Section 1: 3 seats (columns 1, 2, 3)
+    for col_num in [1, 2, 3]:
+        seat_id = f"{row_label}{col_num}"
+        with seat_display_cols_business[seat_idx_counter_business]:
+            checked = seat_id in st.session_state.selected_seats
+            if st.checkbox(seat_id, key=f"checkbox_{seat_id}", value=checked):
+                if seat_id not in st.session_state.selected_seats:
+                    st.session_state.selected_seats.add(seat_id)
+            else:
+                if seat_id in st.session_state.selected_seats:
+                    st.session_state.selected_seats.remove(seat_id)
+        seat_idx_counter_business += 1
+
+    seat_idx_counter_business += 1 # Skip aisle column
+
+    # Section 2: 4 seats (columns 4, 5, 6, 7)
+    for col_num in [4, 5, 6, 7]:
+        seat_id = f"{row_label}{col_num}"
+        with seat_display_cols_business[seat_idx_counter_business]:
+            checked = seat_id in st.session_state.selected_seats
+            if st.checkbox(seat_id, key=f"checkbox_{seat_id}", value=checked):
+                if seat_id not in st.session_state.selected_seats:
+                    st.session_state.selected_seats.add(seat_id)
+            else:
+                if seat_id in st.session_state.selected_seats:
+                    st.session_state.selected_seats.remove(seat_id)
+        seat_idx_counter_business += 1
+
+# Display selected seats count
+st.write(f"### Total seats booked: {len(st.session_state.selected_seats)}")
+
+# Display selected seats details
 if st.session_state.selected_seats:
-    st.write("### Selected Seats:")
+    st.write("### Selected Seat Details:")
     st.write(sorted(list(st.session_state.selected_seats)))
 else:
     st.write("No seats selected yet.")

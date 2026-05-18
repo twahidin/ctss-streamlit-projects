@@ -1,63 +1,72 @@
+#checkout 14/5/2026 (Kaiser)
 import streamlit as st
 
-big1,big2,big3= st.columns([2,6,2])
-col1,col2 = big1.columns(2)
-_, col3, col4, col5, col6, _ = big2.columns(6)
-col7, col8 = big3.columns(2)
+def ValidateType(a, myType:type):
+    try:
+        myType(a)
+        return True
+    except:
+        return False
 
-with col1:
-    N_1 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-1")
-    N_9 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-9")
-    N_17 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-17")
-    N_25 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-25")
-    N_33 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-33")
-    N_41 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-41")
-with col2:
-    N_2 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-2")
-    N_10 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-10")
-    N_18 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-18")
-    N_26 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-26")
-    N_34 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-34")
-    N_42 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-42")
-with col3:
-    N_3 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-3")
-    N_11 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-11")
-    N_19 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-19")
-    N_27 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-27")
-    N_35 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-35")
-    N_43 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-43")
-with col4:
-    N_4 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-4")
-    N_12 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-12")
-    N_20 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-20")
-    N_28 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-28")
-    N_36 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-36")
-    N_44 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-44")
-with col5:
-    N_5 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-5")
-    N_13 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-13")
-    N_21 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-21")
-    N_29 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-29")
-    N_37 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-37")
-    N_45 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-45")
-with col6:
-    N_6 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-6")
-    N_14 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-14")
-    N_22 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-22")
-    N_30 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-30")
-    N_38 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-38")
-    N_46 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-46")
-with col7:
-    N_7 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-7")
-    N_15 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-15")
-    N_23 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-23")
-    N_31 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-31")
-    N_39 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-39")
-    N_47 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-47")
-with col8:
-    N_8 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-8")
-    N_16 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-16")
-    N_24 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-24")
-    N_32 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-32")
-    N_40 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-40")
-    N_48 = st.button("‎ ‎ ‎ ‎ ‎ ", help = "N-48")
+def ValidateError(a, myfunc):
+    try:
+        myfunc(a)
+        return True
+    except:
+        return False
+
+Page, Reciept = st.columns([2,1])
+
+with Page:
+
+    col1, col2 = st.columns(2)
+    first_name = col1.text_input("", placeholder = "First name")
+    last_name = col2.text_input("", placeholder = "Last name")
+    email = st.text_input("Email", placeholder = "my.email@gmail.com")
+    credit_card = st.text_input("credit card number", max_chars = 8)
+    col3, col4 = st.columns(2)
+    cvc = col3.text_input("cvc", max_chars = 3)
+    expiry = col4.text_input("Expiry date", value = "mm/yy", max_chars = 5)
+    promo_code = st.text_input("promo code", max_chars = 6)
+    bundleContainer = st.container(border = True)
+    with bundleContainer:
+        st.title("Get food bundles!")
+        st.markdown("*_its cheaper!_*")
+        col5, col6 = st.columns(2)
+        col5.markdown("hi guys")             #,text_alignment = "right", width=500)
+        buttonBuy = st.button("Buy Now!", type = "primary", help = "BUYBUYBUY")
+
+with Reciept:
+    a = st.container(border = True, vertical = True)
+    with a:
+        st.title("Reciept")
+        st.space("stretch")
+        st.write("")
+    a = st.button("submit")
+if a:
+  try:
+    if not first_name:
+      st.error("please enter first name!")
+      raise Exception()
+    if not last_name:
+      st.error("please enter last name!")
+      raise Exception()
+    if email.strip("@.") != email or not email:
+      st.error("please enter a valid e-mail address!")
+      raise Exception()
+    if not ValidateType(credit_card, int):
+      st.error("please put in numbers for the credit card number")
+      raise Exception()
+    if len(credit_card) < 8:
+      st.error("please input a valid credit card number!")
+      raise Exception()
+    if not ValidateType(cvc, int):
+      st.error("please input a valid CVC number!")
+      raise Exception()
+    if not ValidateError(expiry, eval):
+      st.error("please input a valid expiry date!")
+      raise Exception()
+    else:
+      st.success("successful purchase!")
+  except Exception:
+      print("spoilage")

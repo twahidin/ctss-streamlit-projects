@@ -34,25 +34,29 @@ if st.button("balloon (DO NOT PRESS)"):
       st.balloons()
       st.toast("balloon")
 
-st.write("### Minesweeper (Seat Selection)")
+st.write("### Airplane Seat Selection (2-3-2 Layout)")
 
 # Initialize session state for selected seats if not already present
 if 'selected_seats' not in st.session_state:
     st.session_state.selected_seats = set()
 
-# Define rows and columns
+# Define rows
 seat_rows = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-seat_cols = range(1, 9)
 
-cols = st.columns(len(seat_rows))
+# For each row, create columns for 2-3-2 layout
+for row_label in seat_rows:
+    st.write(f"**Row {row_label.upper()}**")
 
-# Create checkboxes for each seat
-for i, row_label in enumerate(seat_rows):
-    with cols[i]:
-        st.write(f"**Row {row_label.upper()}**")
-        for col_num in seat_cols:
-            seat_id = f"{row_label}{col_num}"
-            # Use st.checkbox to allow selection
+    # Create 9 columns for 2-3-2 layout (2 seats, aisle, 3 seats, aisle, 2 seats)
+    # The '0.2' width is for a narrow visual separator (aisle)
+    seat_display_cols = st.columns([1, 1, 0.2, 1, 1, 1, 0.2, 1, 1])
+
+    seat_idx_counter = 0 # Counter for mapping seat numbers to display columns
+
+    # Section 1: 2 seats (columns 1, 2)
+    for col_num in [1, 2]:
+        seat_id = f"{row_label}{col_num}"
+        with seat_display_cols[seat_idx_counter]:
             checked = seat_id in st.session_state.selected_seats
             if st.checkbox(seat_id, key=f"checkbox_{seat_id}", value=checked):
                 if seat_id not in st.session_state.selected_seats:
@@ -60,6 +64,37 @@ for i, row_label in enumerate(seat_rows):
             else:
                 if seat_id in st.session_state.selected_seats:
                     st.session_state.selected_seats.remove(seat_id)
+        seat_idx_counter += 1
+
+    seat_idx_counter += 1 # Skip aisle column
+
+    # Section 2: 3 seats (columns 3, 4, 5)
+    for col_num in [3, 4, 5]:
+        seat_id = f"{row_label}{col_num}"
+        with seat_display_cols[seat_idx_counter]:
+            checked = seat_id in st.session_state.selected_seats
+            if st.checkbox(seat_id, key=f"checkbox_{seat_id}", value=checked):
+                if seat_id not in st.session_state.selected_seats:
+                    st.session_state.selected_seats.add(seat_id)
+            else:
+                if seat_id in st.session_state.selected_seats:
+                    st.session_state.selected_seats.remove(seat_id)
+        seat_idx_counter += 1
+
+    seat_idx_counter += 1 # Skip aisle column
+
+    # Section 3: 2 seats (columns 6, 7)
+    for col_num in [6, 7]:
+        seat_id = f"{row_label}{col_num}"
+        with seat_display_cols[seat_idx_counter]:
+            checked = seat_id in st.session_state.selected_seats
+            if st.checkbox(seat_id, key=f"checkbox_{seat_id}", value=checked):
+                if seat_id not in st.session_state.selected_seats:
+                    st.session_state.selected_seats.add(seat_id)
+            else:
+                if seat_id in st.session_state.selected_seats:
+                    st.session_state.selected_seats.remove(seat_id)
+        seat_idx_counter += 1
 
 # Display selected seats
 if st.session_state.selected_seats:

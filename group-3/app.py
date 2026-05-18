@@ -6,13 +6,12 @@ if "current_page" not in st.session_state:
 def sku_enter(item,price):
     def sku(name):
         name=name.upper()
-        global s
         s=""
         for i in name:
             s+=str(ord(i))
         return(s)
 
-    if item not in st.session_state:
+    if sku(item) not in st.session_state:
         st.session_state[sku(item)]=[item,price]
 #use sku_enter(item name)
 sku_enter("pencil","$1.50")
@@ -24,15 +23,17 @@ if st.session_state.current_page == "customer":
     tab = st.sidebar.radio("Tabs",["Shop","Admin Login"])
     #shop page (home page for them to buy things)
     if tab == "Shop":
+        searchbar = ""
         searchbar = st.text_input("Search")
         col1,col2,col3=st.columns(3)
         item_count = 0
         item_dict = {}
         for key in st.session_state:
             if key.isdigit() == True:
-                item_count += 1
-                item_dict[key] = st.session_state[key]
-        st.write(item_dict)
+                item = st.session_state[key][0]
+                if searchbar in item:
+                    item_count += 1
+                    item_dict[item] = st.session_state[key]
         def item_container(item,price,stock):
             with st.container(border=True):
                 st.write(item)
@@ -58,7 +59,6 @@ if st.session_state.current_page == "customer":
                 count += 1
     #admin login page
     if tab == "Admin Login":
-        st.write(st.session_state)
         admin_user = st.text_input("")
         admin_pass = "Password123"
         if admin_user == admin_pass:
@@ -72,11 +72,24 @@ if st.session_state.current_page == "customer":
             st.write("wrong password gtfo")
 #Admin Page
 elif st.session_state.current_page == "admin_page":
-    tab = st.sidebar.radio("Tabs",["temp","Customer Page"])
-    if tab == "temp":
-        searchbar = st.text_input("Search")
+    tab = st.sidebar.radio("Tabs",["Session State","Enter SKU","Customer Page"])
+    if tab == "Session State":
+        st.write("Session state:")
+        st.write(st.session_state)
+    #Input SKU
+    elif tab == "Enter SKU":
+        st.write("Enter the SKU info below (click enter to submit)")
+        sku_input = st.text_input("")
+        sku_price = st.text_input("Enter price of item here (without $ sign)")
+        #Sets price to 2 d.p.
+        try:
+            sku_price = "{:.2f}".format(float(sku_price))
+        except ValueError:
+            st.write("invalid price (or its blank and you havent entered anything yet)")
+        if st.button("Enter into SKU"):
+            sku_enter(sku_input,sku_price)
     #To go back to customer page
-    if tab == "Customer Page":
+    elif tab == "Customer Page":
         if st.button("Back to customer page"):
                 st.session_state.current_page = "customer"
                 st.rerun()

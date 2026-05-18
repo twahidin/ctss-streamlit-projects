@@ -1,6 +1,4 @@
 import streamlit as st
-
-from textwrap import wrap
 #session state for customer/admin page
 if "current_page" not in st.session_state:
     st.session_state.current_page = "customer"

@@ -64,9 +64,9 @@ for row_label in seat_rows:
             else:
                 if seat_id in st.session_state.selected_seats:
                     st.session_state.selected_seats.remove(seat_id)
-        seat_idx_counter += 2
+        seat_idx_counter += 1 # Corrected increment
 
-    seat_idx_counter += 2 # Skip aisle column
+    seat_idx_counter += 1 # Skip aisle column (at index 2)
 
     # Section 2: 3 seats (columns 3, 4, 5)
     for col_num in [3, 4, 5]:
@@ -79,9 +79,9 @@ for row_label in seat_rows:
             else:
                 if seat_id in st.session_state.selected_seats:
                     st.session_state.selected_seats.remove(seat_id)
-        seat_idx_counter += 2
+        seat_idx_counter += 1 # Corrected increment
 
-    seat_idx_counter += 2 # Skip aisle column
+    seat_idx_counter += 1 # Skip aisle column (at index 6)
 
     # Section 3: 2 seats (columns 6, 7)
     for col_num in [6, 7]:

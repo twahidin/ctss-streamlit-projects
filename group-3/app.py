@@ -46,6 +46,7 @@ if st.session_state.current_page == "customer":
                 st.write(item)
                 st.write(price)
                 st.write(stock)
+                st.button(f"buy{item}")
         with col1:
             count = 0
             for key in item_dict:

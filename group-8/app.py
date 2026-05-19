@@ -68,7 +68,7 @@ elif filters == "Showtimes":
                 st.write("halls:")
                 st.button(movie["halls"], key=f"{movie['title']}, {movie['title']}")
 
-elif filters == "halls":
+elif filters == "Halls":
     halls = [movies[0]["halls"], movies[1]["halls"], movies[2]["halls"]]
 
     halls_filter = st.pills("", options=halls, default=halls, selection_mode="multi")

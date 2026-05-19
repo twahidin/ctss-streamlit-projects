@@ -25,27 +25,27 @@ if filters == "All":
         st.caption(movies[0]["desc"])
         st.image(movies[0]["photos"])
         st.write("Showtimes:")
-        st.button(movies[0]["showtimes"], key=f"{movie[0]['title']}, {movie[0]['showtimes']}")
+        st.button(movies[0]["showtimes"], key=f"{movies[0]['title']}, {movies[0]['showtimes']}")
         st.write("halls:")
-        st.button(movies[0]["halls"], key=f"{movie['title']}, {movie['halls']}")
+        st.button(movies[0]["halls"], key=f"{movies['title']}, {movies['halls']}")
 
     with col2:
         st.subheader(movies[1]["title"])
         st.caption(movies[1]["desc"])
         st.image(movies[1]["photo"])
         st.write("Showtimes:")
-        st.button(movies[1]["showtimes"], key=f"{movie[1]['title']}, {movie[1]['showtimes']}")
+        st.button(movies[1]["showtimes"], key=f"{movies[1]['title']}, {movies[1]['showtimes']}")
         st.write("halls:")
-        st.button(movies[1]["halls"], key=f"{movie[1]['title']}, {movie[1]['halls']}")
+        st.button(movies[1]["halls"], key=f"{movies[1]['title']}, {movies[1]['halls']}")
 
     with col3:
         st.subheader(movies[2]["title"])
         st.caption(movies[2]["desc"])
         st.image(movies[2]["photos"])
         st.write("Showtimes:")
-        st.button(movies[2]["showtimes"], key=f"{movie[2]['title']}, {movie[2]['showtimes']}")
+        st.button(movies[2]["showtimes"], key=f"{movies[2]['title']}, {movies[2]['showtimes']}")
         st.write("halls:")
-        st.button(movies[2]["halls"], key=f"{movie[2]['title']}, {movie[2]['halls']}")
+        st.button(movies[2]["halls"], key=f"{movies[2]['title']}, {movies[2]['halls']}")
 elif filters == "Showtimes":
     showtimes = [movies[0]["showtimes"], movies[1]["showtimes"], movies[2]["showtimes"]]
 

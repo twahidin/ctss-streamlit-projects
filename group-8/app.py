@@ -32,7 +32,7 @@ if filters == "All":
     with col2:
         st.subheader(movies[1]["title"])
         st.caption(movies[1]["desc"])
-        st.image(movies[1]["photo"])
+        st.image(movies[1]["photos"])
         st.write("Showtimes:")
         st.button(movies[1]["showtimes"], key=f"{movies[1]['title']}, {movies[1]['showtimes']}")
         st.write("halls:")

@@ -89,7 +89,7 @@ elif st.session_state.current_page == "admin_page":
         st.write("Session state:")
         st.write(st.session_state)
         st.write("text.txt")
-        if os.path.exists("app.txt"):
+        if os.path.exists("text.txt"):
             with open("text.txt", "r") as f:
                 content = f.read()
             st.text_area("File Content", content)

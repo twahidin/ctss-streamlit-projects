@@ -1,11 +1,20 @@
 import streamlit as st
 import os
+with open("app.txt","w") as f:
+    f.write('''
+        806978677376 : [pencil,$1.50] \n
+        98265836982 : [eraser,$1.00] \n
+        6779778085846982 : [computer,$3.50] \n
+        806978 : [pen,$2.00] \n
+        ''')
 #puts the skus in app.txt into session state
 if os.path.exists("app.txt"):
     with open("app.txt","r") as f:
         for line in f:
+            if ":" not in line:
+                continue
             key, val = line.strip().split(" : ")
-            item, price = val.strip("[]").split(",")
+            item, price = val.strip().strip("[]").split(",")
             st.session_state[key] = [item, price]
 #session state for customer/admin page
 if "current_page" not in st.session_state:
@@ -46,7 +55,6 @@ if st.session_state.current_page == "customer":
                 st.write(item)
                 st.write(price)
                 st.write(stock)
-                st.button(f"buy{item}")
         with col1:
             count = 0
             for key in item_dict:
@@ -69,13 +77,10 @@ if st.session_state.current_page == "customer":
     if tab == "Admin Login":
         admin_user = st.text_input("Enter the admin password, website will automatcaly send you to admin page if password is correct")
         admin_pass = "Password123"
-        if admin_user != "":
-            if admin_user == admin_pass:
-               st.write("yay correct password")
-               st.session_state.current_page = "admin_page"
-               st.rerun()
-            else:
-                st.write("Incorrect Password")
+        if admin_user == admin_pass:
+            st.write("yay correct password")
+            st.session_state.current_page = "admin_page"
+            st.rerun()
 
 #Admin Page
 elif st.session_state.current_page == "admin_page":
@@ -86,8 +91,8 @@ elif st.session_state.current_page == "admin_page":
         st.write("app.txt")
         if os.path.exists("app.txt"):
             with open("app.txt", "r") as f:
-                for i in f:
-                    st.write(i)
+                content = f.read()
+            st.text_area("File Content", content)
         else:
             st.warning("No file found yet.")
     #Input SKU

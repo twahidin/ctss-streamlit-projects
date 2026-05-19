@@ -8,7 +8,7 @@ Original file is located at
 """
 
 import streamlit as st
-base="dark"
+backgroundColor="black"
 def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone and email (phone and email are inside another dictionary btw)
   Customers={}
   val=0

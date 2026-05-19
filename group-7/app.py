@@ -34,21 +34,21 @@ if st.button("balloon (DO NOT PRESS)"):
       st.balloons()
       st.toast("balloon")
 
-st.write("### Economy Class (2-3-2 Layout)")
+st.write("### Economy Class")
+st.write("          Back")
 
 # Initialize session state for selected seats if not already present
 if 'selected_seats' not in st.session_state:
     st.session_state.selected_seats = set()
 
-# Define Economy rows
+# economy
 seat_rows = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
-# For each Economy row, create columns for 2-3-2 layout
+# seat label
 for row_label in seat_rows:
     st.write(f"**Row {row_label.upper()}**")
 
-    # Create 9 columns for 2-3-2 layout (2 seats, aisle, 3 seats, aisle, 2 seats)
-    # The '0.2' width is for a narrow visual separator (aisle)
+    # seat
     seat_display_cols = st.columns([1, 1, 0.2, 1, 1, 1, 0.2, 1, 1])
 
     seat_idx_counter = 0 # Counter for mapping seat numbers to display columns
@@ -134,7 +134,7 @@ for row_label in business_seat_rows:
                 if seat_id in st.session_state.selected_seats:
                     st.session_state.selected_seats.remove(seat_id)
         seat_idx_counter_business += 1
-
+st.write("              Back")
 # Display selected seats count
 st.write(f"### Total seats booked: {len(st.session_state.selected_seats)}")
 

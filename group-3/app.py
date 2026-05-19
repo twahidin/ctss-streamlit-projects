@@ -59,23 +59,26 @@ if st.session_state.current_page == "customer":
                 count += 1
     #admin login page
     if tab == "Admin Login":
-        admin_user = st.text_input("")
+        admin_user = st.text_input("Enter the admin password, website will automatcaly send you to admin page if password is correct")
         admin_pass = "Password123"
         if admin_user == admin_pass:
             st.write("yay correct password")
+            st.session_state.current_page = "admin_page"
+            st.rerun()
 
-            if st.button("Go to Admin Page"):
-                st.session_state.current_page = "admin_page"
-                st.rerun()
-
-        else:
-            st.write("wrong password gtfo")
 #Admin Page
 elif st.session_state.current_page == "admin_page":
     tab = st.sidebar.radio("Tabs",["Session State","Enter SKU","Customer Page"])
     if tab == "Session State":
         st.write("Session state:")
         st.write(st.session_state)
+        st.write("app.txt")
+        if os.path.exists("app.txt"):
+            with open("app.txt", "r") as f:
+                content = f.read()
+            st.text_area("File Content", content)
+        else:
+            st.warning("No file found yet.")
     #Input SKU
     elif tab == "Enter SKU":
         st.write("Enter the SKU info below (click enter to submit)")
@@ -88,6 +91,8 @@ elif st.session_state.current_page == "admin_page":
             st.write("invalid price (or its blank and you havent entered anything yet)")
         if st.button("Enter into SKU"):
             sku_enter(sku_input,sku_price)
+            with open("app.txt","a") as f:
+                f.append(f"{sku_input, sku_price}\n")
     #To go back to customer page
     elif tab == "Customer Page":
         if st.button("Back to customer page"):

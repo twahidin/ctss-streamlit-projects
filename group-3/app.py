@@ -14,11 +14,10 @@ def sku_enter(item,price):
 
     if sku(item) not in st.session_state:
         st.session_state[sku(item)]=[item,price]
-#use sku_enter(item name)
-sku_enter("pencil","$1.50")
-sku_enter("eraser","$1.00")
-sku_enter("computer","$3.50")
-sku_enter("pen","$2.00")
+    with open("app.txt","a") as f:
+        f.write(f"{sku(item)} : [{item},{price}]\n")
+#use sku_enter(item name,price)
+
 #for the customer page
 if st.session_state.current_page == "customer":
     tab = st.sidebar.radio("Tabs",["Shop","Admin Login"])
@@ -92,8 +91,6 @@ elif st.session_state.current_page == "admin_page":
             st.write("invalid price (or its blank and you havent entered anything yet)")
         if st.button("Enter into SKU"):
             sku_enter(sku_input,sku_price)
-            with open("app.txt","a") as f:
-                f.write(f"{sku_input, sku_price}\n")
     #To go back to customer page
     elif tab == "Customer Page":
         if st.button("Back to customer page"):

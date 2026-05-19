@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-with open("app.txt","w") as f:
+with open("text.txt","w") as f:
     f.write('''
         806978677376 : [pencil,$1.50] \n
         98265836982 : [eraser,$1.00] \n
@@ -8,8 +8,8 @@ with open("app.txt","w") as f:
         806978 : [pen,$2.00] \n
         ''')
 #puts the skus in app.txt into session state
-if os.path.exists("app.txt"):
-    with open("app.txt","r") as f:
+if os.path.exists("text.txt"):
+    with open("text.txt","r") as f:
         for line in f:
             if ":" not in line:
                 continue
@@ -30,7 +30,7 @@ def sku_enter(item,price):
 
     if sku(item) not in st.session_state:
         st.session_state[sku(item)]=[item,price]
-    with open("app.txt","a") as f:
+    with open("text.txt","a") as f:
         f.write(f"{sku(item)} : [{item},{price}]\n")
 #use sku_enter(item name,price)
 
@@ -88,9 +88,9 @@ elif st.session_state.current_page == "admin_page":
     if tab == "Session State":
         st.write("Session state:")
         st.write(st.session_state)
-        st.write("app.txt")
+        st.write("text.txt")
         if os.path.exists("app.txt"):
-            with open("app.txt", "r") as f:
+            with open("text.txt", "r") as f:
                 content = f.read()
             st.text_area("File Content", content)
         else:

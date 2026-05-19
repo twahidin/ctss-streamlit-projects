@@ -8,7 +8,48 @@ Original file is located at
 """
 
 import streamlit as st
+import streamlit as st
+def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone and email (phone and email are inside another dictionary btw)
+  Customers={}
+  val=0
+  for loop in range(AmountCustomer):
+    st.title(f'please key in your details for free steeling(customer{loop})')
+    Customer=[]
+    Customer.append(st.text_input(f'(customer{loop}) put your name',placeholder=''))
+    Customer.append(st.text_input(f'(customer{loop}) phone number (with the +65 thingy)',placeholder='+65[space]12345678'))
+    Customer.append(st.text_input(f'(customer{loop}) email',placeholder='iugawdhigdiagiu@akjdghjdj.com'))
+    errors=[]
+    #put error
+    if Customer[0]=='':
+      errors.append('put your name')
+    else:
+      if any(char.isdigit() for char in Customer[0]):
+        errors.append('why does your name have number')
+    if Customer[1]=='':
+      errors.append('put your phoen number')
+    else:
+      if (Customer[1])[0]!='+':
+        errors.append('put the +65 thing')
+      if any(char.isalpha() for char in Customer[1])and(char!='+'):
+        errors.append('why is there not number in your phoen number')
+    if Customer[2]=='':
+      errors.append('put you email or else you get mailed to north korea')
+    elif not(any(char=='@' for char in Customer[2])):
+      errors.append('put @')
 
+    #display
+    if errors==[]:
+      st.success('ok')
+      Customers[Customer[0]]=({'phone':Customer[1],'email':Customer[2]})
+      val+=1
+    else:
+      st.error(f'screw you ({')('.join(errors)})')
+
+  if val==AmountCustomer:
+    if st.button('sumbmit'):
+      for loop in range(50):
+        st.balloons()
+      return(Customers)
 status = True
 yes = "work"
 if st.button("plane"):
@@ -49,7 +90,7 @@ for row_label in seat_rows:
     st.write(f"**Row {row_label.upper()}**")
 
     # seat
-    seat_display_cols = st.columns([1, 1, 0.2, 1, 1, 1, 0.2, 1, 1])
+    seat_display_cols = st.columns([1, 1, 2, 1, 1, 1, 2, 1, 1])
 
     seat_idx_counter = 0 # Count seat
 
@@ -145,48 +186,6 @@ if st.session_state.selected_seats:
 else:
     st.write("No seats selected yet.")
 
-import streamlit as st
-def PutStuffs(AmountCustomer):#it returns a dictionary with name phone and email
-  Customers=[]
-  val=0
-  for loop in range(AmountCustomer):
-    st.title(f'please key in your details for free steeling(customer{loop})')
-    Customer=[]
-    Customer.append(st.text_input(f'(customer{loop}) put your name',placeholder=''))
-    Customer.append(st.text_input(f'(customer{loop}) phone number (with the +65 thingy)',placeholder='+65[space]12345678'))
-    Customer.append(st.text_input(f'(customer{loop}) email',placeholder='iugawdhigdiagiu@akjdghjdj.com'))
-    errors=[]
-    #put error
-    if Customer[0]=='':
-      errors.append('put your name')
-    else:
-      if any(char.isdigit() for char in Customer[0]):
-        errors.append('why does your name have number')
-    if Customer[1]=='':
-      errors.append('put your phoen number')
-    else:
-      if (Customer[1])[0]!='+':
-        errors.append('put the +65 thing')
-      if any(char.isalpha() for char in Customer[1])and(char!='+'):
-        errors.append('why is there not number in your phoen number')
-    if Customer[2]=='':
-      errors.append('put you email or else you get mailed to north korea')
-    elif not(any(char=='@' for char in Customer[2])):
-      errors.append('put @')
-
-    #display
-    if errors==[]:
-      st.success('ok')
-      Customers.append({'name':Customer[0],'phone':Customer[1],'email':Customer[2]})
-      val+=1
-    else:
-      st.error(f'screw you ({')('.join(errors)})')
-
-  if val==AmountCustomer:
-    if st.button('sumbmit'):
-      for loop in range(50):
-        st.balloons()
-      return(Customers)
-st.write(PutStuffs(len(st.session_state.selected_seats)))
+Customers=PutStuffs(len(st.session_state.selected_seats))
 for loop in range(1):
     st.snow()

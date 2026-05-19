@@ -1,5 +1,12 @@
 import streamlit as st
 import os
+#puts the skus in app.txt into session state
+if os.path.exists("app.txt"):
+    with open("app.txt","r") as f:
+        for line in f:
+            key, val = line.strip().split(" : ")
+            item, price = val.strip("[]").split(",")
+            st.session_state[key] = [item, price]
 #session state for customer/admin page
 if "current_page" not in st.session_state:
     st.session_state.current_page = "customer"
@@ -85,11 +92,13 @@ elif st.session_state.current_page == "admin_page":
         sku_input = st.text_input("")
         sku_price = st.text_input("Enter price of item here (without $ sign)")
         #Sets price to 2 d.p.
+        valid_price = False
         try:
             sku_price = "{:.2f}".format(float(sku_price))
+            valid_price = True
         except ValueError:
             st.write("invalid price (or its blank and you havent entered anything yet)")
-        if st.button("Enter into SKU"):
+        if st.button("Enter into SKU") and valid_price:
             sku_enter(sku_input,sku_price)
     #To go back to customer page
     elif tab == "Customer Page":

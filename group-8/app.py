@@ -1,72 +1,82 @@
-#checkout 14/5/2026 (Kaiser)
+#ver3 frontend movie selection 17/5/26 (Aidan), next is to add personalised pictures under movie dict, and route from json file?
 import streamlit as st
 
-def ValidateType(a, myType:type):
-    try:
-        myType(a)
-        return True
-    except:
-        return False
+st.title("Silver Kampong")
+movies = [
+        {"title": "My Children", "desc": "A man who values his children", "showtimes": "9.00 AM", "halls": "Cinema Hall 1", "photos": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?q=80&w=1138&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
+        {"title": "My Struggle", "desc": "Is this source reliable?", "showtimes": "12.00 PM", "halls": "Cinema Hall 2", "photos": "https://images.pexels.com/photos/9804995/pexels-photo-9804995.jpeg"},
+        {"title": "-man", "desc": "-I am powerless", "showtimes": "3.00 PM", "halls": "Cinema Hall 3", "photos": "https://images.pexels.com/photos/28344947/pexels-photo-28344947.jpeg"}]
 
-def ValidateError(a, myfunc):
-    try:
-        myfunc(a)
-        return True
-    except:
-        return False
+filters = st.selectbox("Filters", options=["All", "Showtimes", "Halls"], index=0)
+if filters == "All":
+    col1, col2, col3 = st.columns(3, border=True, vertical_alignment="center")
 
-Page, Reciept = st.columns([2,1])
+    with col1:
+        st.subheader(movies[0]["title"])
+        st.caption(movies[0]["desc"])
+        st.image(movies[0]["photos"])
+        st.write("Showtimes:")
+        st.button(movies[0]["showtimes"], key=f"{movie[0]['title']}, {movie[0]['showtimes']}")
+        st.write("halls:")
+        st.button(movies[0]["halls"], key=f"{movie['title']}, {movie['halls']}")
 
-with Page:
+    with col2:
+        st.subheader(movies[1]["title"])
+        st.caption(movies[1]["desc"])
+        st.image(movies[1]["photo"])
+        st.write("Showtimes:")
+        st.button(movies[1]["showtimes"], key=f"{movie[1]['title']}, {movie[1]['showtimes']}")
+        st.write("halls:")
+        st.button(movies[1]["halls"], key=f"{movie[1]['title']}, {movie[1]['halls']}")
 
-    col1, col2 = st.columns(2)
-    first_name = col1.text_input("", placeholder = "First name")
-    last_name = col2.text_input("", placeholder = "Last name")
-    email = st.text_input("Email", placeholder = "my.email@gmail.com")
-    credit_card = st.text_input("credit card number", max_chars = 8)
-    col3, col4 = st.columns(2)
-    cvc = col3.text_input("cvc", max_chars = 3)
-    expiry = col4.text_input("Expiry date", value = "mm/yy", max_chars = 5)
-    promo_code = st.text_input("promo code", max_chars = 6)
-    bundleContainer = st.container(border = True)
-    with bundleContainer:
-        st.title("Get food bundles!")
-        st.markdown("*_its cheaper!_*")
-        col5, col6 = st.columns(2)
-        col5.markdown("hi guys")             #,text_alignment = "right", width=500)
-        buttonBuy = st.button("Buy Now!", type = "primary", help = "BUYBUYBUY")
+    with col3:
+        st.subheader(movies[2]["title"])
+        st.caption(movies[2]["desc"])
+        st.image(movies[2]["photos"])
+        st.write("Showtimes:")
+        st.button(movies[2]["showtimes"], key=f"{movie[2]['title']}, {movie[2]['showtimes']}")
+        st.write("halls:")
+        st.button(movies[2]["halls"], key=f"{movie[2]['title']}, {movie[2]['halls']}")
+elif filters == "Showtimes":
+    showtimes = [movies[0]["showtimes"], movies[1]["showtimes"], movies[2]["showtimes"]]
 
-with Reciept:
-    a = st.container(border = True, vertical = True)
-    with a:
-        st.title("Reciept")
-        st.space("stretch")
-        st.write("")
-    a = st.button("submit")
-if a:
-  try:
-    if not first_name:
-      st.error("please enter first name!")
-      raise Exception()
-    if not last_name:
-      st.error("please enter last name!")
-      raise Exception()
-    if email.strip("@.") != email or not email:
-      st.error("please enter a valid e-mail address!")
-      raise Exception()
-    if not ValidateType(credit_card, int):
-      st.error("please put in numbers for the credit card number")
-      raise Exception()
-    if len(credit_card) < 8:
-      st.error("please input a valid credit card number!")
-      raise Exception()
-    if not ValidateType(cvc, int):
-      st.error("please input a valid CVC number!")
-      raise Exception()
-    if not ValidateError(expiry, eval):
-      st.error("please input a valid expiry date!")
-      raise Exception()
-    else:
-      st.success("successful purchase!")
-  except Exception:
-      print("spoilage")
+    showtimes_filter = st.pills("", options=showtimes, default=showtimes, selection_mode="multi")
+
+    filtered_movies = []
+    for m in movies:
+            if m["showtimes"] in showtimes_filter:
+                    filtered_movies.append(m)
+
+    if filtered_movies:
+        cols = st.columns(len(filtered_movies), border=True, vertical_alignment="center")
+        for col, movie in zip(cols, filtered_movies):
+            with col:
+                st.subheader(movie["title"])
+                st.caption(movie["desc"])
+                st.image(movie["photos"])
+                st.write("Showtimes:")
+                st.button(movie["showtimes"], key=f"{movie['title']}, {movie['showtimes']}")
+                st.write("halls:")
+                st.button(movie["halls"], key=f"{movie['title']}, {movie['title']}")
+
+elif filters == "halls":
+    halls = [movies[0]["halls"], movies[1]["halls"], movies[2]["halls"]]
+
+    halls_filter = st.pills("", options=halls, default=halls, selection_mode="multi")
+
+    filtered_movies = []
+    for m in movies:
+            if m["halls"] in halls_filter:
+                    filtered_movies.append(m)
+
+    if halls_filter:
+        cols = st.columns(len(filtered_movies), border=True, vertical_alignment="center")
+        for col, movie in zip(cols, filtered_movies):
+            with col:
+                st.subheader(movie["title"])
+                st.caption(movie["desc"])
+                st.image(movie["photos"])
+                st.write("halls:")
+                st.button(movie["halls"], key=f"{movie['title']}, {movie['halls']}")
+                st.write("Showtimes:")
+                st.button(movie["showtimes"], key=f"{movie['title']}, {movie['showtimes']}")

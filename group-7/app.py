@@ -8,7 +8,7 @@ Original file is located at
 """
 
 import streamlit as st
-import streamlit as st
+base="dark"
 def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone and email (phone and email are inside another dictionary btw)
   Customers={}
   val=0
@@ -45,7 +45,9 @@ def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone a
     else:
       st.error(f'screw you ({')('.join(errors)})')
 
-  if val==AmountCustomer:
+  if AmountCustomer==0:
+    st.error('screw you (put more than 0 customer)')
+  elif val==AmountCustomer:
     if st.button('sumbmit'):
       for loop in range(50):
         st.balloons()

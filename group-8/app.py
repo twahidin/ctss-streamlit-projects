@@ -12,7 +12,7 @@ import streamlit as st
 
 st.title("Silver Kampong")
 movies = [
-        {"title": "My Children", "desc": "A man who values his children", "showtimes": "9.00 AM", "halls": "Cinema Hall 1", "photos": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?q=80&w=1138&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
+        {"title": "My Children", "desc": "A man who values his children", "showtimes": "9.00 AM", "halls": "Cinema Hall 1", "photos": "https://images.pexels.com/photos/15914002/pexels-photo-15914002.jpeg"},
         {"title": "My Struggle", "desc": "Is this source reliable?", "showtimes": "12.00 PM", "halls": "Cinema Hall 2", "photos": "https://images.pexels.com/photos/9804995/pexels-photo-9804995.jpeg"},
         {"title": "-man", "desc": "-I am powerless", "showtimes": "3.00 PM", "halls": "Cinema Hall 3", "photos": "https://images.pexels.com/photos/28344947/pexels-photo-28344947.jpeg"}]
 
@@ -27,7 +27,7 @@ if filters == "All":
         st.write("Showtimes:")
         st.button(movies[0]["showtimes"], key=f"{movies[0]['title']}, {movies[0]['showtimes']}")
         st.write("halls:")
-        st.button(movies[0]["halls"], key=f"{movies['title']}, {movies['halls']}")
+        st.button(movies[0]["halls"], key=f"{movies[0]['title']}, {movies[0]['halls']}")
 
     with col2:
         st.subheader(movies[1]["title"])
@@ -85,7 +85,7 @@ elif filters == "halls":
                 st.subheader(movie["title"])
                 st.caption(movie["desc"])
                 st.image(movie["photos"])
-                st.write("halls:")
+                st.write("Halls:")
                 st.button(movie["halls"], key=f"{movie['title']}, {movie['halls']}")
                 st.write("Showtimes:")
                 st.button(movie["showtimes"], key=f"{movie['title']}, {movie['showtimes']}")

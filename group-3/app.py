@@ -32,7 +32,7 @@ if st.session_state.current_page == "customer":
         for key in st.session_state:
             if key.isdigit() == True:
                 item = st.session_state[key][0]
-                if searchbar in item:
+                if searchbar.lower() in item.lower():
                     item_count += 1
                     item_dict[item] = st.session_state[key]
         def item_container(item,price,stock):
@@ -93,7 +93,7 @@ elif st.session_state.current_page == "admin_page":
         if st.button("Enter into SKU"):
             sku_enter(sku_input,sku_price)
             with open("app.txt","a") as f:
-                f.append(f"{sku_input, sku_price}\n")
+                f.write(f"{sku_input, sku_price}\n")
     #To go back to customer page
     elif tab == "Customer Page":
         if st.button("Back to customer page"):

@@ -25,27 +25,27 @@ if filters == "All":
         st.caption(movies[0]["desc"])
         st.image(movies[0]["photos"])
         st.write("Showtimes:")
-        st.button(movies[0]["showtimes"], key=f"{movies[0]['title']}, {movies[0]['showtimes']}")
+        st.link_button(movies[0]["showtimes"], "https://www.gv.com.sg/")
         st.write("halls:")
-        st.button(movies[0]["halls"], key=f"{movies[0]['title']}, {movies[0]['halls']}")
+        st.link_button(movies[0]["halls"], "https://www.gv.com.sg/")
 
     with col2:
         st.subheader(movies[1]["title"])
         st.caption(movies[1]["desc"])
         st.image(movies[1]["photos"])
         st.write("Showtimes:")
-        st.button(movies[1]["showtimes"], key=f"{movies[1]['title']}, {movies[1]['showtimes']}")
+        st.link_button(movies[1]["showtimes"], "https://www.gv.com.sg/")
         st.write("halls:")
-        st.button(movies[1]["halls"], key=f"{movies[1]['title']}, {movies[1]['halls']}")
+        st.link_button(movies[1]["halls"], "https://www.gv.com.sg/")
 
     with col3:
         st.subheader(movies[2]["title"])
         st.caption(movies[2]["desc"])
         st.image(movies[2]["photos"])
         st.write("Showtimes:")
-        st.button(movies[2]["showtimes"], key=f"{movies[2]['title']}, {movies[2]['showtimes']}")
+        st.link_button(movies[2]["showtimes"], "https://www.gv.com.sg/")
         st.write("halls:")
-        st.button(movies[2]["halls"], key=f"{movies[2]['title']}, {movies[2]['halls']}")
+        st.link_button(movies[2]["halls"], "https://www.gv.com.sg/")
 elif filters == "Showtimes":
     showtimes = [movies[0]["showtimes"], movies[1]["showtimes"], movies[2]["showtimes"]]
 
@@ -64,9 +64,9 @@ elif filters == "Showtimes":
                 st.caption(movie["desc"])
                 st.image(movie["photos"])
                 st.write("Showtimes:")
-                st.button(movie["showtimes"], key=f"{movie['title']}, {movie['showtimes']}")
+                st.link_button(movie["showtimes"], "https://www.gv.com.sg/")
                 st.write("halls:")
-                st.button(movie["halls"], key=f"{movie['title']}, {movie['title']}")
+                st.link_button(movie["halls"], "https://www.gv.com.sg/")
 
 elif filters == "Halls":
     halls = [movies[0]["halls"], movies[1]["halls"], movies[2]["halls"]]
@@ -86,6 +86,6 @@ elif filters == "Halls":
                 st.caption(movie["desc"])
                 st.image(movie["photos"])
                 st.write("Halls:")
-                st.button(movie["halls"], key=f"{movie['title']}, {movie['halls']}")
+                st.link_button(movie["halls"], "https://www.gv.com.sg/")
                 st.write("Showtimes:")
-                st.button(movie["showtimes"], key=f"{movie['title']}, {movie['showtimes']}")
+                st.button(movie["showtimes"], "https://www.gv.com.sg/")

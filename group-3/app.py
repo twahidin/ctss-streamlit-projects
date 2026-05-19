@@ -69,10 +69,13 @@ if st.session_state.current_page == "customer":
     if tab == "Admin Login":
         admin_user = st.text_input("Enter the admin password, website will automatcaly send you to admin page if password is correct")
         admin_pass = "Password123"
-        if admin_user == admin_pass:
-            st.write("yay correct password")
-            st.session_state.current_page = "admin_page"
-            st.rerun()
+        if admin_user != "":
+            if admin_user == admin_pass:
+               st.write("yay correct password")
+               st.session_state.current_page = "admin_page"
+               st.rerun()
+            else:
+                st.write("Incorrect Password")
 
 #Admin Page
 elif st.session_state.current_page == "admin_page":
@@ -83,8 +86,8 @@ elif st.session_state.current_page == "admin_page":
         st.write("app.txt")
         if os.path.exists("app.txt"):
             with open("app.txt", "r") as f:
-                content = f.read()
-            st.text_area("File Content", content)
+                for i in f:
+                    st.write(i)
         else:
             st.warning("No file found yet.")
     #Input SKU

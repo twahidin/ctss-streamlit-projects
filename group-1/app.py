@@ -3,8 +3,18 @@
 import streamlit as st
 from database import write_database
 
-st.write("Hello World I am group 1")
-if write_database():
-  st.write("It returns True")
-else:
-  st.write("Nothing is returned")
+import streamlit as st
+
+def page2():
+    st.title("Second page")
+
+pg = st.navigation([
+    st.Page("database.py", title="First page", icon="🔥"),
+    st.Page(page2, title="Second page", icon=":material/favorite:"),
+    st.Page(
+        "https://docs.streamlit.io",
+        title="Streamlit Docs",
+        icon=":material/open_in_new:"
+    ),
+])
+pg.run()

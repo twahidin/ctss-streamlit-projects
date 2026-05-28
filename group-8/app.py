@@ -66,12 +66,14 @@ if a:
       st.error("please input a valid CVC number!")
       raise Exception()
     if "/" not in expiry or not all(list(map(str.isdigit(), expiry.split("/")))):
-      expError = True
+      st.error("error")
       raise Exception()
 
     else:
       st.success("successful purchase!")
   except Exception:
       print("spoilage")
+      if expError:
+        st.error("Please input a valid expiry date!")
 
 print("/".split("/"))

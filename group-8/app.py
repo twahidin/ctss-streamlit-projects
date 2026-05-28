@@ -64,7 +64,7 @@ if a:
     if not ValidateType(cvc, int):
       st.error("please input a valid CVC number!")
       raise Exception()
-    if expiry and all(list(map(str.isdigit(), expiry.split("/")))):
+    if "/" not in expiry and not all(list(map(str.isdigit(), expiry.split("/")))):
       st.error("please input a valid expiry date!")
       raise Exception()
     else:

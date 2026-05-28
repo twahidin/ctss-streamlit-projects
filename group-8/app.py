@@ -52,7 +52,7 @@ if a:
     if not last_name:
       st.error("please enter last name!")
       raise Exception()
-    if email.strip("@.") != email or not email:
+    if email.split("@")[0] == email or email.split(".")[0] == email or not email:
       st.error("please enter a valid e-mail address!")
       raise Exception()
     if not ValidateType(credit_card, int):
@@ -64,7 +64,7 @@ if a:
     if not ValidateType(cvc, int):
       st.error("please input a valid CVC number!")
       raise Exception()
-    if expiry and all(list(map(str.isdigit(), expiry.strip("/").split()))):
+    if expiry and all(list(map(str.isdigit(), expiry.split("/")))):
       st.error("please input a valid expiry date!")
       raise Exception()
     else:

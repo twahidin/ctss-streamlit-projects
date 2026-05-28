@@ -74,6 +74,6 @@ if a:
   except Exception:
       print("spoilage")
       if expError:
-        st.error("Please input a valid expiry date!")
+        st.html(f"<script>console.log({expError})</script>")
 
 print("/".split("/"))

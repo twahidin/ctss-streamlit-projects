@@ -38,7 +38,7 @@ with Page:
         buttonBuy = st.button("Buy Now!", type = "primary", help = "BUYBUYBUY")
 
 with Reciept:
-    a = st.container(border = True, vertical = True)
+    a = st.container(border = True)
     with a:
         st.title("Reciept")
         st.space("stretch")

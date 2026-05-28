@@ -68,8 +68,7 @@ if a:
     if "/" not in expiry or not all(list(map(str.isdigit(), expiry.split("/")))):
       expError = True
       raise Exception()
-    if expError:
-      st.error("Please input a valid expiry date!")
+
     else:
       st.success("successful purchase!")
   except Exception:

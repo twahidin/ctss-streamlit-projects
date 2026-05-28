@@ -1,3 +1,24 @@
+#lwk forgor when this was made
+FILENAME = "insert file name here"
+import json
+from functools import reduce
+import operator
+
+def ReadFromJson(fp, *locations):
+  with open(fp,"r") as f:
+    myFile = json.load(f)
+  return reduce(operator.getitem, locations, myFile)
+
+def WriteToJson(fp:str, value, *locations):
+  with open(fp,"r+") as f:
+    myFile = json.load(f)
+    reduce(operator.getitem, locations[:-1], myFile)[locations[-1]] = value
+    f.seek(0)
+    json.dump(myFile, f, indent = 4)
+    f.truncate()
+
+
+
 #9/5/26
 #Admin Terminal and authentication for backend
 
@@ -22,5 +43,3 @@ if user_name and password and login:
     else:
         st.error(f"Unsuccessful login", icon="🚨")
         st.error('Your Username or password is incorrect', icon="🚨")
-
-#MEMBERSHIP SIGN UP

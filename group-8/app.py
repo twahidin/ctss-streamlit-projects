@@ -46,6 +46,7 @@ with Reciept:
     a = st.button("submit")
 if a:
   try:
+    expError = False
     if not first_name:
       st.error("please enter first name!")
       raise Exception()
@@ -64,10 +65,14 @@ if a:
     if not ValidateType(cvc, int):
       st.error("please input a valid CVC number!")
       raise Exception()
-    if "/" not in expiry and not all(list(map(str.isdigit(), expiry.split("/")))):
-      st.error("please input a valid expiry date!")
+    if "/" not in expiry or not all(list(map(str.isdigit(), expiry.split("/")))):
+      expError = True
       raise Exception()
+    if expError:
+      st.error("Please input a valid expiry date!")
     else:
       st.success("successful purchase!")
   except Exception:
       print("spoilage")
+
+print("/".split("/"))

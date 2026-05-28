@@ -23,7 +23,7 @@ with Page:
     first_name = col1.text_input("", placeholder = "First name")
     last_name = col2.text_input("", placeholder = "Last name")
     email = st.text_input("Email", placeholder = "my.email@gmail.com")
-    credit_card = st.text_input("credit card number", max_chars = 8)
+    credit_card = st.text_input("credit card number", max_chars = 16)
     col3, col4 = st.columns(2)
     cvc = col3.text_input("cvc", max_chars = 3)
     expiry = col4.text_input("Expiry date", value = "mm/yy", max_chars = 5)
@@ -39,6 +39,7 @@ with Page:
 
 with Reciept:
     a = st.container(border = True)
+    isdigit2 = lambda x: x.isdigit()
     with a:
         st.title("Reciept")
         st.space("stretch")
@@ -65,7 +66,7 @@ if a:
     if not ValidateType(cvc, int):
       st.error("please input a valid CVC number!")
       raise Exception()
-    if "/" not in expiry or not all(list(map(str.isdigit(), expiry.split("/")))):
+    if "/" not in expiry or not all(list(map(isdigit2, expiry.split("/")))):
       expError = True
       st.error("error")
       raise Exception()
@@ -74,7 +75,8 @@ if a:
       st.success("successful purchase!")
   except Exception:
       print("spoilage")
-      if expError:
-        st.html(f"<script>console.log({expError})</script>")
 
-print("/".split("/"))
+
+b = map(isdigit2, a)
+print(a)
+print(list(b))

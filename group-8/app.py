@@ -4,9 +4,15 @@ import json
 from functools import reduce
 import operator
 
+
+
 def ReadFromJson(fp, *locations):
-  with open(fp,"r") as f:
-    myFile = json.load(f)
+  try:
+    getattr(fp, "read")
+    myFile = json.load(fp)
+  except:
+    with open(fp,"r") as f:
+      myFile = json.load(f)
   return reduce(operator.getitem, locations, myFile)
 
 def WriteToJson(fp:str, value, *locations):
@@ -35,10 +41,10 @@ with col2:
 
 with col3:
     login = container.button(":red[**Login**]")
-
+    uploaded_file = st.file_uploader("seed database")
 if user_name and password and login:
     #Connect to backend for real authentication
-    if user_name in ReadFromJson("file.json", "ADMINS") and password == ReadFromJson("file.json", "ADMINS")[user_name]: #Testing purposes only
+    if user_name in ReadFromJson(uploaded_file, "ADMINS") and password == ReadFromJson(uploaded_file, "ADMINS")[user_name]: #Testing purposes only
         st.success('Successfully login!', icon="✅")
     else:
         st.error(f"Unsuccessful login", icon="🚨")

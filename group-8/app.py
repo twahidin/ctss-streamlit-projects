@@ -3,7 +3,7 @@ FILENAME = "insert file name here"
 import json
 from functools import reduce
 import operator
-
+from io import StringI
 
 
 def ReadFromJson(fp, *locations):
@@ -42,8 +42,10 @@ with col2:
 with col3:
     login = container.button(":red[**Login**]")
     uploaded_file = st.file_uploader("seed database")
-if user_name and password and login:
+if user_name and password and login and uploaded_file:
+
     #Connect to backend for real authentication
+    uploaded_file = uploaded_file.getvalue()
     if user_name in ReadFromJson(uploaded_file, "ADMINS") and password == ReadFromJson(uploaded_file, "ADMINS")[user_name]: #Testing purposes only
         st.success('Successfully login!', icon="✅")
     else:

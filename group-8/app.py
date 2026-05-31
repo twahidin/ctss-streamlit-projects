@@ -3,7 +3,7 @@ FILENAME = "insert file name here"
 import json
 from functools import reduce
 import operator
-from io import StringI
+
 
 
 def ReadFromJson(fp, *locations):

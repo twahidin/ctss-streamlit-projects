@@ -45,8 +45,7 @@ with col3:
 if user_name and password and login and uploaded_file:
 
     #Connect to backend for real authentication
-    uploaded_file = uploaded_file.getvalue()
-    uploaded_file = open("file.json", "w")
+
     silkstring =  StringIO(uploaded_file.getvalue().decode("utf-8"))
     if user_name in ReadFromJson(silkstring, "ADMINS") and password == ReadFromJson(silkstring, "ADMINS", user_name): #Testing purposes only
         st.success('Successfully login!', icon="✅")

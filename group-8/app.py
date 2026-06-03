@@ -46,7 +46,7 @@ if user_name and password and login and uploaded_file:
 
     #Connect to backend for real authentication
     uploaded_file = uploaded_file.getvalue()
-    uploaded_file = open("file.json", "w").write(uploaded_file)
+    uploaded_file = open("file.json", "wb").write(uploaded_file)
     uploaded_file.close()
     if user_name in ReadFromJson("file.json", "ADMINS") and password == ReadFromJson("file.json", "ADMINS", user_name): #Testing purposes only
         st.success('Successfully login!', icon="✅")

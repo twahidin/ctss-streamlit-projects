@@ -7,8 +7,11 @@ Original file is located at
     https://colab.research.google.com/drive/1TcVQ0Ck0xacIXAMr3DUJqjob4AOE69Ih
 """
 
+
+
 import streamlit as st
 backgroundColor="black"
+
 def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone and email (phone and email are inside another dictionary btw)
   Customers={}
   val=0
@@ -44,7 +47,6 @@ def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone a
       val+=1
     else:
       st.error(f'screw you ({')('.join(errors)})')
-
   if AmountCustomer==0:
     st.error('screw you (put more than 0 customer)')
   elif val==AmountCustomer:
@@ -52,6 +54,8 @@ def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone a
       for loop in range(50):
         st.balloons()
       return(Customers)
+st.tex
+PutStuffs()
 status = True
 yes = "work"
 if st.button("plane"):
@@ -189,5 +193,3 @@ else:
     st.write("No seats selected yet.")
 
 Customers=PutStuffs(len(st.session_state.selected_seats))
-for loop in range(1):
-    st.snow()

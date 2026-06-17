@@ -8,10 +8,10 @@ Original file is located at
 """
 
 import streamlit as st
-backgroundColor="black"
 
-def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone and email (phone and email are inside another dictionary btw)
-  Customers={}
+import streamlit as st
+def PutStuffs(AmountCustomer):#it returns a dictionary with name phone and email
+  Customers=[]
   val=0
   for loop in range(AmountCustomer):
     st.title(f'please key in your details for free steeling(customer{loop})')
@@ -41,17 +41,17 @@ def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone a
     #display
     if errors==[]:
       st.success('ok')
-      Customers[Customer[0]]=({'phone':Customer[1],'email':Customer[2]})
+      Customers.append({'name':Customer[0],'phone':Customer[1],'email':Customer[2]})
       val+=1
     else:
       st.error(f'screw you ({')('.join(errors)})')
-  if AmountCustomer==0:
-    st.error('screw you (put more than 0 customer)')
-  elif val==AmountCustomer:
+
+  if val==AmountCustomer:
     if st.button('sumbmit'):
       for loop in range(50):
         st.balloons()
       return(Customers)
+
 
 status = True
 yes = "work"
@@ -61,7 +61,7 @@ if st.button("no plane"):
     no = "plane crashe"
     st.write(no)
 
-name = st.text_input("Name")
+name = st.text_input("Name") # Moved outside of conditional to ensure it's always defined
 
 if name == ' ':
     st.error("please enter a valid name")
@@ -93,7 +93,7 @@ for row_label in seat_rows:
     st.write(f"**Row {row_label.upper()}**")
 
     # seat
-    seat_display_cols = st.columns([1, 1, 2, 1, 1, 1, 2, 1, 1])
+    seat_display_cols = st.columns([1, 1, 0.2, 1, 1, 1, 0.2, 1, 1])
 
     seat_idx_counter = 0 # Count seat
 
@@ -188,5 +188,6 @@ if st.session_state.selected_seats:
     st.write(sorted(list(st.session_state.selected_seats)))
 else:
     st.write("No seats selected yet.")
-
-Customers=PutStuffs(len(st.session_state.selected_seats))
+st.write(PutStuffs(len(st.session_state.selected_seats)))
+for loop in range(1):
+    st.snow()

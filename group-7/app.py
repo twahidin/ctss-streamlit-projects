@@ -8,6 +8,7 @@ Original file is located at
 """
 
 import streamlit as st
+import re # Import regular expression module for validation
 
 # --- Helper function for customer details --- Custom function to collect customer details
 def get_customer_details_form(num_customers):
@@ -54,19 +55,17 @@ def get_customer_details_form(num_customers):
                 elif any(char.isdigit() for char in name):
                     errors.append('Name should not contain numbers.')
 
-                # Validate phone number
+                # Validate phone number: Must start with '+65' and be followed by 8 digits, optionally separated by a space.
                 if not phone:
                     errors.append('Please enter a phone number.')
-                elif not phone.startswith('+'):
-                    errors.append('Phone number should start with "+".')
-                elif any(char.isalpha() for char in phone if char not in [' ', '+']): # Allow spaces and + sign
-                    errors.append('Phone number should only contain numbers, spaces, and "+".')
+                elif not re.fullmatch(r'\+65\s?\d{8}', phone):
+                    errors.append('Phone number must start with "+65" and be followed by 8 digits (e.g., +65 12345678).')
 
-                # Validate email
+                # Validate email: Basic email format check (characters@characters.characters)
                 if not email:
                     errors.append('Please enter an email.')
-                elif '@' not in email or '.' not in email: # Basic email validation
-                    errors.append('Email should contain "@" and ".".')
+                elif not re.fullmatch(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+                    errors.append('Please enter a valid email address (e.g., example@domain.com).')
 
                 if errors:
                     st.error(f'Errors for customer {i+1}: {'; '.join(errors)}')
@@ -106,7 +105,7 @@ num_people = st.number_input('How many people?', min_value=1, value=1, key='main
 
 # Step 2: Get customer details (managed by the helper function and session state)
 # This will display the form if not submitted or if num_people changed
-collected_customer_details = get_customer_details_form(num_people)
+collected_customer_details = get_customer_details_form(num_people);
 
 # Only proceed to seat selection if customer details are submitted and valid
 if st.session_state.customer_details_submitted and len(collected_customer_details) == num_people:

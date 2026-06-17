@@ -54,7 +54,7 @@ def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone a
       for loop in range(50):
         st.balloons()
       return(Customers)
-st.tex
+st.text
 PutStuffs()
 status = True
 yes = "work"

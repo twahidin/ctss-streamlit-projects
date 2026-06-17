@@ -7,8 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1TcVQ0Ck0xacIXAMr3DUJqjob4AOE69Ih
 """
 
-
-
 import streamlit as st
 backgroundColor="black"
 
@@ -54,8 +52,7 @@ def PutStuffs(AmountCustomer):#it returns a dictionary with name(as key) phone a
       for loop in range(50):
         st.balloons()
       return(Customers)
-st.text
-PutStuffs()
+st.text(PutStuffs())
 status = True
 yes = "work"
 if st.button("plane"):

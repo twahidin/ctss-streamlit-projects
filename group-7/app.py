@@ -81,7 +81,7 @@ def get_customer_details_form(num_customers):
                     st.session_state.customer_details = collected_customers_data
                     st.session_state.customer_details_submitted = True
                     st.success("Customer details submitted successfully!")
-                    st.experimental_rerun() # Rerun to hide inputs and show next section
+                    st.rerun() # Rerun to hide inputs and show next section
                 else:
                     st.error("Please correct the errors and try again.")
     return st.session_state.get('customer_details', []) # Return stored details if submitted, else empty list

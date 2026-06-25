@@ -1,9 +1,12 @@
 #lwk forgor when this was made
-FILENAME = "insert file name here"
+
 import json
 from functools import reduce
 import operator
-from io import StringIO
+
+import git
+import os
+
 
 
 def ReadFromJson(fp, *locations):
@@ -23,8 +26,10 @@ def WriteToJson(fp:str, value, *locations):
     json.dump(myFile, f, indent = 4)
     f.truncate()
 
+if not os.path.exists("folder"):
+  git.Repo.clone_from("https://github.com/bb-cmyk/osh-kosh.git", "\\folder")
 
-
+fp = open(os.path.join("folder", "file.json"))
 #9/5/26
 #Admin Terminal and authentication for backend
 
@@ -41,13 +46,13 @@ with col2:
 
 with col3:
     login = container.button(":red[**Login**]")
-    uploaded_file = st.file_uploader("seed database")
+    #uploaded_file = st.file_uploader("seed database")
 if user_name and password and login and uploaded_file:
 
     #Connect to backend for real authentication
 
-    silkstring =  StringIO(uploaded_file.getvalue().decode("utf-8"))
-    if user_name in ReadFromJson(silkstring, "ADMINS") and password == ReadFromJson(silkstring, "ADMINS", user_name): #Testing purposes only
+
+    if user_name in ReadFromJson(fp, "ADMINS") and password == ReadFromJson(fp, "ADMINS", user_name): #Testing purposes only
         st.success('Successfully login!', icon="✅")
     else:
         st.error(f"Unsuccessful login", icon="🚨")

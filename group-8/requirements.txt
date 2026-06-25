@@ -2,3 +2,4 @@ streamlit
 GitPython
 gitdb
 typing-extensions
+git

@@ -9,7 +9,7 @@ Original file is located at
 
 #this one is new
 import streamlit as st
-st.subheading('e')
+st.subheader('e')
 
 def SeatSel():#it returns a dictionary with name phone and email and seat
   st.snow()

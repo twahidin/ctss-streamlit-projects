@@ -8,8 +8,9 @@ Original file is located at
 """
 
 #this one is new
-st.title('I hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlit')
 import streamlit as st
+st.title('I hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlit')
+
 def SeatSel():#it returns a dictionary with name phone and email and seat
   if 'Customers' not in st.session_state:
     st.session_state['Customers']=[]

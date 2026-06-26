@@ -9,6 +9,7 @@ Original file is located at
 
 #this one is new
 import streamlit as st
+st.subheading('e')
 
 def SeatSel():#it returns a dictionary with name phone and email and seat
   st.snow()
@@ -75,8 +76,10 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
 
   if st.session_state['Submit']==2: #(seat)
     for loop in range(st.session_state['SeatTemp']):
-      if not st.session_state['SeatTemp']==0:
+      try:
         st.write(f'(done) {st.session_state['Customers'][loop]['name']} (customer{loop+1})(selected {st.session_state['Customers'][loop]['seat']})')
+      except KeyError:
+        pass
     if st.session_state['SeatTemp']>len(st.session_state['Customers'])-1:
       st.success('ok your done now get out')
       for loop in range(50):

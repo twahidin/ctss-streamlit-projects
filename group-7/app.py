@@ -18,6 +18,8 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
     st.session_state['Submit']=0
   if 'AmountCustomer' not in st.session_state:
     st.session_state['AmountCustomer']=0
+  if 'SeatTemp' not in st.session_state:
+    st.session_state['SeatTemp']=0
 
   if st.button('reset (the plane craShed)'):
     st.session_state['Submit']=0
@@ -72,15 +74,19 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
 
   if st.session_state['Submit']==2: #(seat)
     for loop in range(len(st.session_state['Customers'])):
-      st.title(f'select seat for {st.session_state['Customers'][loop]['name']} (customer{loop+1})')
-      SeatColAmount=9
-      SeatRowAmount=20
-      SeatCol=st.columns(SeatColAmount)
-      for LoopCol in range(len(SeatCol)):
-        with SeatCol[LoopCol]:
-          for LoopRow in range(SeatRowAmount):
-            if st.button(f'{chr(ord('a')+LoopCol)}{LoopRow+1}'):
-              st.session_state['Customers'][loop]['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
+      for loop2 in range(loop):
+        st.write(f'(done) {st.session_state['Customers'][loop2]['name']} (customer{loop2+1})(selected {st.session_state['Customers'][loop2]['seat']})')
+      if loop==st.session_state['SeatTemp']:
+        st.title(f'select seat for {st.session_state['Customers'][loop]['name']} (customer{loop+1})')
+        SeatColAmount=6
+        SeatRowAmount=20
+        SeatCol=st.columns(SeatColAmount)
+        for LoopCol in range(len(SeatCol)):
+          with SeatCol[LoopCol]:
+            for LoopRow in range(SeatRowAmount):
+              if st.button(f'{chr(ord('a')+LoopCol)}{LoopRow+1}'):
+                st.session_state['Customers'][loop]['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
+                st.session_state['SeatTemp']+=1
 
     for loop in range(50):
       st.balloons()

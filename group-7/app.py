@@ -9,9 +9,11 @@ Original file is located at
 
 #this one is new
 import streamlit as st
-st.subheader('can you uploadI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlit')
+st.subheader('can you upload2I hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlit')
 
 def SeatSel():#it returns a dictionary with name phone and email and seat
+  st.snow()
+
   if 'Customers' not in st.session_state:
     st.session_state['Customers']=[]
   if 'Submit' not in st.session_state:
@@ -76,13 +78,13 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
     for loop in range(st.session_state['SeatTemp']):
       if not st.session_state['SeatTemp']==0:
         st.write(f'(done) {st.session_state['Customers'][loop]['name']} (customer{loop+1})(selected {st.session_state['Customers'][loop]['seat']})')
-    st.title(f'select seat for {st.session_state['Customers'][st.session_state['SeatTemp']]['name']} (customer{st.session_state['SeatTemp']+1})')
     if st.session_state['SeatTemp']>len(st.session_state['Customers']):
       st.success('ok your done now get out')
       for loop in range(50):
         st.balloons()
       return(st.session_state['Customers'])
     else:
+      st.title(f'select seat for {st.session_state['Customers'][st.session_state['SeatTemp']]['name']} (customer{st.session_state['SeatTemp']+1})')
       SeatColAmount=6
       SeatRowAmount=20
       SeatCol=st.columns(SeatColAmount)
@@ -96,10 +98,5 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
 
 
 
+
 SeatSel()
-
-
-
-
-for loop in range(1):
-    st.snow()

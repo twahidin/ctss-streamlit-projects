@@ -9,7 +9,7 @@ Original file is located at
 
 #this one is new
 import streamlit as st
-st.title('I hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlit')
+st.subheader('I hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlit')
 
 def SeatSel():#it returns a dictionary with name phone and email and seat
   if 'Customers' not in st.session_state:
@@ -49,7 +49,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
       else:
         if (Customer[1])[0]!='+':
           errors.append('put the +65 thing')
-        if any(char.isalpha() for char in Customer[1])and(char!='+'):
+        if any((not char.isdigit() and char!='+') for char in Customer[1]):
           errors.append('why is there not number in your phoen number')
       if Customer[2]=='':
         errors.append('put you email or else you get mailed to north korea')

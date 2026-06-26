@@ -8,7 +8,7 @@ Original file is located at
 """
 
 #this one is new
-
+st.title('I hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlitI hate streamlit')
 import streamlit as st
 def SeatSel():#it returns a dictionary with name phone and email and seat
   if 'Customers' not in st.session_state:
@@ -71,7 +71,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
 
   if st.session_state['Submit']==2: #(seat)
     for loop in range(len(st.session_state['Customers'])):
-      st.title(f'select seat for {st.session_state['Customers'][loop]['name']}')
+      st.title(f'select seat for {st.session_state['Customers'][loop]['name']} (customer{loop+1})')
       SeatColAmount=9
       SeatRowAmount=20
       SeatCol=st.columns(SeatColAmount)
@@ -80,8 +80,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
           for LoopRow in range(SeatRowAmount):
             if st.button(f'{chr(ord('a')+LoopCol)}{LoopRow+1}'):
               st.session_state['Customers'][loop]['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
-            else:
-                st.error('select one')
+
     for loop in range(50):
       st.balloons()
     return(st.session_state['Customers'])

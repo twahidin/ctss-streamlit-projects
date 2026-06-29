@@ -43,10 +43,7 @@ for i in range(1,49):
 
 
 def update_button(seat_number):
-    if st.session_state[seat_number] == False:
-      st.session_state[seat_number] = True
-    if st.session_state[seat_number] == True:
-      st.session_state[seat_number] = False
+  st.session_state[seat_number] = not st.session_state[seat_number]
 
 
 #def json_read():

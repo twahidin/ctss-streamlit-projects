@@ -10,7 +10,12 @@ Original file is located at
 #this one is new
 import streamlit as st
 
-
+st.markdown("""
+<style>
+.stApp{
+    background-color:#F7FE00;
+}
+""")
 def SeatSel():#it returns a dictionary with name phone and email and seat
   st.snow()
   if 'page_state' not in st.session_state:

@@ -7,24 +7,18 @@ Original file is located at
     https://colab.research.google.com/drive/1zf565maSOpGIf8SFhnhudKf5rxZjPHJ1
 """
 
+
+
 #this one is new
 import streamlit as st
-
-if 'page_state' not in st.session_state:
-    st.session_state.page_state = 'buy_plane_page'
-
 st.header('Welcome to scood airlines')
 st.subheader("Flights : to langkawi (you will die)")
+if st.button("buy a plane"):
+  st.rerun()
+  st.success("tank for buying scood plane")
+  if st.button("ship plane"):
+    st.success(f"great your plane has been shipped to (11°04'37.9'N 174°46'03.4'E)")
 
-if st.session_state.page_state == 'buy_plane_page':
-    if st.button("buy a plane"):
-        st.session_state.page_state = 'ship_plane_page'
-        st.rerun()
-
-elif st.session_state.page_state == 'ship_plane_page':
-    st.success("tank for buying scood plane")
-    if st.button("ship plane"):
-        st.success(f"great your plane has been shipped to (11°04'37.9'N 174°46'03.4'E)")
 
 
 def SeatSel():#it returns a dictionary with name phone and email and seat

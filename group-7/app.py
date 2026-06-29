@@ -14,7 +14,8 @@ st.markdown("""
 .stApp{
     background-color:#F7FE00 !important;
 }
-""")
+</style>
+""", unsafe_allow_html=True)
 def SeatSel():#it returns a dictionary with name phone and email and seat
   st.snow()
   if 'page_state' not in st.session_state:

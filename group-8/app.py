@@ -28,6 +28,7 @@ with bigger3:
 if 'time_false' not in st.session_state:
     st.session_state.time_false = False
 current_time = datetime.now().strftime("%H:%M")
+st.markdown(f"Server time is: {current_time}")
 if time < current_time:
     st.toast("Current timing is unavaliable", icon = "🚨")
     st.session_state.time_false = True

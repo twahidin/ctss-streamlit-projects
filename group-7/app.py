@@ -7,13 +7,12 @@ Original file is located at
     https://colab.research.google.com/drive/1zf565maSOpGIf8SFhnhudKf5rxZjPHJ1
 """
 
-#this one is new
 import streamlit as st
 
 st.markdown("""
 <style>
 .stApp{
-    background-color:#F7FE00;
+    background-color:#F7FE00 !important;
 }
 """)
 def SeatSel():#it returns a dictionary with name phone and email and seat
@@ -87,7 +86,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
         CustomersTemp.append({'name':Customer[0],'phone':Customer[1],'email':Customer[2]})
 
       else:
-        st.error(f'screw you ({')'.join(errors)})')
+        st.error(f'screw you ({')('.join(errors)})')
 
     if len(CustomersTemp)==st.session_state['AmountCustomer']:
       if st.button('sumbmit2'):
@@ -117,7 +116,6 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
             if st.button(f'{chr(ord('a')+LoopCol)}{LoopRow+1}'):
               st.session_state['Customers'][st.session_state['SeatTemp']]['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
               st.session_state['SeatTemp']+=1
-
 
 
 

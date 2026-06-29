@@ -7,8 +7,8 @@ Original file is located at
     https://colab.research.google.com/drive/1zf565maSOpGIf8SFhnhudKf5rxZjPHJ1
 """
 
-import streamlit as st
-
+#this one is new
+import streamlit as stt
 st.markdown("""
 <style>
 .stApp{
@@ -16,25 +16,26 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
+
+st.markdown("""
+<style>
+div.stButton > button {
+    background-color: #00FF00; /* Green background */
+    color: white;             /* White text */
+    border-radius: 8px;       /* Rounded corners */
+    border: none;
+}
+div.stButton > button:hover {
+    background-color: #FFFF00; /* Darker green on hover */
+    color: white;
+}
+</style>
+""", unsafe_allow_html=True)
+
+st.button("Custom Green Button")
+
 def SeatSel():#it returns a dictionary with name phone and email and seat
   st.snow()
-  if 'page_state' not in st.session_state:
-      st.session_state.page_state = 'buy_plane_page'
-
-  st.header('Welcome to scood airlines')
-  st.subheader("Flights : to langkawi (you will die)")
-
-  if st.session_state.page_state == 'buy_plane_page':
-      if st.button("buy a plane"):
-          st.session_state.page_state = 'ship_plane_page'
-          st.rerun()
-
-  elif st.session_state.page_state == 'ship_plane_page':
-      st.success("tank for buying scood plane")
-      if st.button("ship plane"):
-          st.success(f"great your plane has been shipped to (11°04'37.9'N 174°46'03.4'E)")
-
-
   if 'Customers' not in st.session_state:
     st.session_state['Customers']=[]
   if 'Submit' not in st.session_state:
@@ -44,11 +45,23 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
   if 'SeatTemp' not in st.session_state:
     st.session_state['SeatTemp']=0
 
-  if st.button('reset (the plane crashed)'):
+  st.header('Welcome to scood airlines')
+  st.subheader("Flights : to langkawi (you will die)")
+
+  if st.session_state.page_state == 'buy_plane_page':
+      if st.button("buy a plane"):
+          st.session_state.page_state = 'ship_plane_page'
+          st.rerun()
+  elif st.session_state.page_state == 'ship_plane_page':
+      st.success("tank for buying scood plane")
+      if st.button("ship plane"):
+          st.success(f"great your plane has been shipped to (11°04'37.9'N 174°46'03.4'E)")
+
+  if st.button('reset (the plane craShed)'):
     st.session_state['Submit']=0
 
   if st.session_state['Submit']==0:
-    AmountCustomer=int(st.number_input('amount of customer',step=1,min_value=1))
+    AmountCustomer=int(st.number_input('amound of customer',step=1,min_value=1))
     if st.button('sumbmit1'):
       st.session_state.AmountCustomer=AmountCustomer
       st.session_state['Submit']=1
@@ -57,7 +70,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
   if st.session_state['Submit']==1:
     CustomersTemp=[]
     for loop in range(st.session_state.AmountCustomer):
-      st.title(f'please key in your details for free steeling (customer{loop+1})')
+      st.title(f'please key in your details for free steeling(customer{loop+1})')
       Customer=[]
       Customer.append(st.text_input(f'(customer{loop+1}) put your name',placeholder=''))
       Customer.append(st.text_input(f'(customer{loop+1}) phone number (with the +65 thingy)',placeholder='+65[space]12345678'))
@@ -80,12 +93,10 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
         errors.append('put you email or else you get mailed to north korea')
       elif not(any(char=='@' for char in Customer[2])):
         errors.append('put @')
-
       #display
       if errors==[]:
         st.success('ok')
         CustomersTemp.append({'name':Customer[0],'phone':Customer[1],'email':Customer[2]})
-
       else:
         st.error(f'screw you ({')('.join(errors)})')
 
@@ -102,7 +113,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
       except KeyError:
         pass
     if st.session_state['SeatTemp']>len(st.session_state['Customers'])-1:
-      st.success('you got scammed you are getting sent to squid game')
+      st.success('ok your done now get out')
       for loop in range(50):
         st.balloons()
       return(st.session_state['Customers'])
@@ -117,6 +128,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
             if st.button(f'{chr(ord('a')+LoopCol)}{LoopRow+1}'):
               st.session_state['Customers'][st.session_state['SeatTemp']]['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
               st.session_state['SeatTemp']+=1
+
 
 
 

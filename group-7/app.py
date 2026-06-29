@@ -8,7 +8,7 @@ Original file is located at
 """
 
 #this one is new
-import streamlit as stt
+import streamlit as st
 st.markdown("""
 <style>
 .stApp{

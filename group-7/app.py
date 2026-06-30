@@ -42,6 +42,8 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
     st.session_state['AmountCustomer']=0
   if 'SeatTemp' not in st.session_state:
     st.session_state['SeatTemp']=0
+  if 'SelectedSeats' not in st.session_state:
+    st.session_state['SelectedSeats']=[]
   if 'page_state' not in st.session_state:
     st.session_state['page_state']='buy_plane_page'
 
@@ -49,16 +51,18 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
   st.subheader("Flights : to langkawi (you will die)")
 
   if st.session_state.page_state == 'buy_plane_page':
-      if st.button("buy a plane"):
-          st.session_state.page_state = 'ship_plane_page'
-          st.rerun()
+    if st.button("buy a plane"):
+      st.session_state.page_state = 'ship_plane_page'
+      st.rerun()
   elif st.session_state.page_state == 'ship_plane_page':
-      st.success("tank for buying scood plane")
-      if st.button("ship plane"):
-          st.success(f"great your plane has been shipped to (11°04'37.9'N 174°46'03.4'E)")
+    st.success("tank for buying scood plane")
+    if st.button("ship plane"):
+      st.success(f"great your plane has been shipped to (11°04'37.9'N 174°46'03.4'E)")
 
   if st.button('reset (the plane craShed)'):
     st.session_state['Submit']=0
+    st.session_state['SeatTemp']=0
+    st.session_state['Customers']=[]
 
   if st.session_state['Submit']==0:
     AmountCustomer=int(st.number_input('amound of customer',step=1,min_value=1))
@@ -125,11 +129,9 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
       for LoopCol in range(len(SeatCol)):
         with SeatCol[LoopCol]:
           for LoopRow in range(SeatRowAmount):
-            if st.button(f'{chr(ord('a')+LoopCol)}{LoopRow+1}'):
+            if st.button(f'{chr(ord('a')+LoopCol)}{LoopRow+1}{'(selected)' if f'{chr(ord('a')+LoopCol)}{LoopRow+1}' in st.session_state['SelectedSeats'] else ''}') and not f'{chr(ord('a')+LoopCol)}{LoopRow+1}' in st.session_state['SelectedSeats']:
               st.session_state['Customers'][st.session_state['SeatTemp']]['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
+              st.session_state['SelectedSeats']+=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
               st.session_state['SeatTemp']+=1
-
-
-
 
 SeatSel()

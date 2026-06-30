@@ -42,6 +42,8 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
     st.session_state['AmountCustomer']=0
   if 'SeatTemp' not in st.session_state:
     st.session_state['SeatTemp']=0
+  if 'page_state' not in st.session_state:
+    st.session_state['page_state']=0
 
   st.header('Welcome to scood airlines')
   st.subheader("Flights : to langkawi (you will die)")

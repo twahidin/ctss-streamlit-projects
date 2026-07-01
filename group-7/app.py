@@ -126,8 +126,8 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
       SeatColAmount=6
       SeatRowAmount=20
       SeatCol=st.columns(SeatColAmount)
-      st.write(st.session_state[SelectedSeats])
-      st.write(st.session_state[Customers])
+      st.write(st.session_state['SelectedSeats'])
+      st.write(st.session_state['Customers'])
       for LoopCol in range(len(SeatCol)):
         with SeatCol[LoopCol]:
           for LoopRow in range(SeatRowAmount):

@@ -7,8 +7,8 @@ Original file is located at
     https://colab.research.google.com/drive/1zf565maSOpGIf8SFhnhudKf5rxZjPHJ1
 """
 
-#this one is new
 import streamlit as st
+import re
 st.markdown("""
 <style>
 .stApp{
@@ -95,20 +95,22 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
           errors.append('put the +65 thing')
         if any((not char.isdigit() and char!='+') for char in Customer[1]):
           errors.append('why is there not number in your phoen number')
+
+
       if Customer[2]=='':
-        errors.append('put you email or else you get mailed to north korea')
-      if not(any(char=='@' for char in Customer[2])):
-        errors.append('put @')
-      if not(any(char=='.' for char in Customer[2])):
-        errors.append('put .')
-      if not(char.isdigit for char in Customer[2] or char.isalpha for char in Customer[2]):
-        errors.append('type something your email must have letter or number not @.')
+        errors.append('put your email or else you get mailed to north korea')
+      else:
+
+        email_regex = r"^((?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+)@((?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+)\.((?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+)$"
+        if not re.match(email_regex, Customer[2]):
+          errors.append('please put actual email')
+
       #display
       if errors==[]:
         st.success('ok')
         CustomersTemp.append({'name':Customer[0],'phone':Customer[1],'email':Customer[2]})
       else:
-        st.error(f'screw you ({')('.join(errors)})')
+        st.error(f'screw you ({') ('.join(errors)})')
 
     if len(CustomersTemp)==st.session_state['AmountCustomer']:
       if st.button('sumbmit2'):

@@ -63,6 +63,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
     st.session_state['Submit']=0
     st.session_state['SeatTemp']=0
     st.session_state['Customers']=[]
+    st.session_state['SelectedSeats']=[]
 
   if st.session_state['Submit']==0:
     AmountCustomer=int(st.number_input('amound of customer',step=1,min_value=1))
@@ -134,7 +135,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
             if st.button(f'{chr(ord('a')+LoopCol)}{LoopRow+1}{'(selected)' if f'{chr(ord('a')+LoopCol)}{LoopRow+1}' in st.session_state['SelectedSeats'] else ''}'):
               if not f'{chr(ord('a')+LoopCol)}{LoopRow+1}' in st.session_state['SelectedSeats']:
                 (st.session_state['Customers'][st.session_state['SeatTemp']])['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
-                st.session_state['SelectedSeats']+=(f'{chr(ord('a')+LoopCol)}{LoopRow+1}')
+                st.session_state['SelectedSeats'].append(f'{chr(ord('a')+LoopCol)}{LoopRow+1}')
                 st.session_state['SeatTemp']+=1
 
 SeatSel()

@@ -173,10 +173,3 @@ Original file is located at
 #             ]
 #             st.success("Grid saved!")
 
-"""
- import streamlit as st
-st.title("Hello World")
-st.write("Hello my name is Aslan")
-st.write("Hello my name is Aeson")
-st.write("Hello, my name is Shi Jia")
-"""

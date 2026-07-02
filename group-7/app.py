@@ -100,8 +100,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
       if Customer[2]=='':
         errors.append('put your email or else you get mailed to north korea')
       else:
-
-        email_regex = r"^((?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+)@((?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+)\.((?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+)$"
+        email_regex = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
         if not re.match(email_regex, Customer[2]):
           errors.append('please put actual email')
 
@@ -110,7 +109,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
         st.success('ok')
         CustomersTemp.append({'name':Customer[0],'phone':Customer[1],'email':Customer[2]})
       else:
-        st.error(f'screw you ({') ('.join(errors)})')
+        st.error(f'screw you ({' + '.join(errors)})')
 
     if len(CustomersTemp)==st.session_state['AmountCustomer']:
       if st.button('sumbmit2'):

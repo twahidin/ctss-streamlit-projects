@@ -133,7 +133,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
           for LoopRow in range(SeatRowAmount):
             if st.button(f'{chr(ord('a')+LoopCol)}{LoopRow+1}{'(selected)' if f'{chr(ord('a')+LoopCol)}{LoopRow+1}' in st.session_state['SelectedSeats'] else ''}'):
               if not f'{chr(ord('a')+LoopCol)}{LoopRow+1}' in st.session_state['SelectedSeats']:
-                st.session_state(['Customers'][st.session_state['SeatTemp']])['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
+                (st.session_state['Customers'][st.session_state['SeatTemp']])['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
                 st.session_state['SelectedSeats']+=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
                 st.session_state['SeatTemp']+=1
 

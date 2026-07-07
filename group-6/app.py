@@ -1,6 +1,5 @@
 import streamlit as st
 
-# Page config should be the first Streamlit command
 st.set_page_config(layout="wide")
 
 if "Seller" not in st.session_state:
@@ -159,3 +158,6 @@ else:
                 for r in range(rows)
             ]
             st.success("Grid saved!")
+        if st.button("Cancel"):
+            st.session_state["Selecting"] = False
+            st.rerun()

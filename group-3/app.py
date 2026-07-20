@@ -1,7 +1,7 @@
 
 import streamlit as st
 import os
-import smptlib
+
 
 #puts the skus in app.txt into session state
 
@@ -79,25 +79,25 @@ def update_stock(sku,change,operation):
     save_txt()
 
 #Sends email (this was so hard LOL)
-def send_email(recipient, subject, body):
-    sender = "inventorytrackergmail@gmail.com"
-    # Use an App Password here
-    password = "only ziyi has this"
+# def send_email(recipient, subject, body):
+#     sender = "inventorytrackergmail@gmail.com"
+#     # Use an App Password here
+#     password = "only ziyi has this"
 
 
-    message = MIMEText(body)
-    message['Subject'] = subject
-    message['From'] = sender
-    message['To'] = recipient
-    try:
-        # Connect to Gmail's server
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()
-            server.login(sender, password)
-            server.send_message(message)
-        st.success("Email sent successfully!")
-    except Exception as exception:
-        st.error(f"An error occurred: {exception}")
+#     message = MIMEText(body)
+#     message['Subject'] = subject
+#     message['From'] = sender
+#     message['To'] = recipient
+#     try:
+#         # Connect to Gmail's server
+#         with smtplib.SMTP("smtp.gmail.com", 587) as server:
+#             server.starttls()
+#             server.login(sender, password)
+#             server.send_message(message)
+#         st.success("Email sent successfully!")
+#     except Exception as exception:
+#         st.error(f"An error occurred: {exception}")
 
 # send email
 def email_page():

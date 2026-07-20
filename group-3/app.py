@@ -372,7 +372,7 @@ elif st.session_state.current_page == "Cart":
             st.rerun()
 #Admin Page
 elif st.session_state.current_page == "admin_page":
-    tab = st.sidebar.radio("Tabs",["Session State","Import stocks","Enter SKU","Check Items","Customer Page","Money"])
+    tab = st.sidebar.radio("Tabs",["Session State","Import stocks","Enter SKU","Remove SKU","Check Items","Customer Page","Money"])
     if tab == "Session State":
         st.write("Session state:")
         st.write(st.session_state)
@@ -397,7 +397,7 @@ elif st.session_state.current_page == "admin_page":
     #money
     elif tab == "Money":
         st.write("We currently have:")
-        st.write(st.session_state["money"])
+        st.success(st.session_state["money"],)
     #Input SKU
     elif tab == "Enter SKU":
         st.write("Fill in Item Info")
@@ -418,6 +418,13 @@ elif st.session_state.current_page == "admin_page":
         if name != "":
             st.write("sku:", find_sku(name))
 
+    #remove sku
+    elif tab == "Remove SKU":
+        item_remove = st.text_input("Enter the exact name of the item that you would wish to delete")
+        if item_remove != "":
+            sku = find_sku(item_remove)
+            st.session_state.pop(sku)
+            st.success("Success!")
     #To go back to customer page
     elif tab == "Customer Page":
         if st.button("Back to customer page"):

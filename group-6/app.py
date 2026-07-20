@@ -1,3 +1,4 @@
+
 # —------------------HOME PAGE—-----------------#
 import streamlit as st
 
@@ -81,77 +82,20 @@ else:
     if st.session_state["Selecting"] == True:
         st.title("Movie theatre")
 
-        st.markdown("""
-        <style>
-        /* Reduce spacing between columns */
-        div[data-testid="stHorizontalBlock"] {
-            gap: 0rem !important;
-        }
-
-        /* Remove column padding */
-        div[data-testid="column"] {
-            padding: 0rem !important;
-            margin: 0rem !important;
-        }
-
-        /* Shrink checkbox container */
-        div[data-testid="stCheckbox"] {
-            margin: -6px 0 !important;
-            padding: 0 !important;
-        }
-
-        /* Shrink actual checkbox box */
-        div[data-testid="stCheckbox"] input {
-            transform: scale(0.85);
-        }
-        </style>
-        """, unsafe_allow_html=True)
-
-        cols = 2
-        rows = 3
-
-        for r in range(rows):
-            columns = st.columns(cols, gap="small")
-            for c, col in enumerate(columns):
-                with col:
-                    st.checkbox("", key=f"cb_{r}_{c}", label_visibility="collapsed")
-
-        # --- save button ---
-        if "saved_grid" not in st.session_state:
-            st.session_state.saved_grid = None
-
-        if st.button("Save"):
-            st.session_state.saved_grid = [
-                [
-                    st.session_state.get(f"cb_{r}_{c}", False)
-                    for c in range(cols)
-                ]
-                for r in range(rows)
-            ]
-            st.success("Grid saved!")
-            for r in st.session_state.saved_grid:
-                for c in rows:
-                    if st.session_state.saved_grid[r][c] == True:
-                        st.session_state.saved_grid[r][c] = st.checkbox(
-                            "",
-                            key=f"cb_{r}_{c}",
-                            value=True,
-                            disabled=True
-                        )
-            st.rerun()
+        st.set_page_config(layout="wide")
 
         rows = 3
         cols = 2
 
-        # ---------------------------
-        # Session State
-        # ---------------------------
+# ---------------------------
+# Session State
+# ---------------------------
         if "booked" not in st.session_state:
             st.session_state.booked = set()
 
-        # ---------------------------
-        # Seat Selection
-        # ---------------------------
+# ---------------------------
+# Seat Selection
+# ---------------------------
         st.header("Select Your Seats")
 
         selected = []
@@ -162,18 +106,16 @@ else:
                 seat = (r, c)
 
                 with col:
-                    checked = st.checkbox(
-                        "",
-                        key=f"cb_{r}_{c}",
-                        disabled=seat in st.session_state.booked,
+                    checked = st.checkbox("", key=f"cb_{r}_{c}",
+                    disabled=seat in st.session_state.booked,
                     )
 
                     if checked:
                         selected.append(seat)
 
-        # ---------------------------
-        # Validation Functions
-        # ---------------------------
+# ---------------------------
+# Validation Functions
+# ---------------------------
         def valid_name(name):
             return name != "" and name.isalpha()
 
@@ -193,9 +135,9 @@ else:
         def valid_credit_card(card):
             return len(card) == 16 and card.isdigit()
 
-        # ---------------------------
-        # Payment Dialog
-        # ---------------------------
+# ---------------------------
+# Payment Dialog
+# ---------------------------
         @st.dialog("Payment")
         def pay():
             name = st.text_input("Enter name")
@@ -206,33 +148,32 @@ else:
             if st.button("Confirm, give me tickets"):
 
                 if len(selected) == 0:
-                    st.error("Please select at least one seat.")
+                  st.error("Please select at least one seat.")
 
                 elif not valid_name(name):
-                    st.error("Fill in a valid name.")
+                  st.error("Fill in a valid name.")
 
                 elif not valid_email(email):
-                    st.error("Invalid email.")
+                  st.error("Invalid email.")
 
                 elif not valid_phone(phone_no):
-                    st.error("Phone number should contain exactly 8 digits.")
+                  st.error("Phone number should contain exactly 8 digits.")
 
                 elif not valid_credit_card(credit_card):
-                    st.error("Credit card number should contain exactly 16 digits.")
+                  st.error("Credit card number should contain exactly 16 digits.")
 
                 else:
-                    # Mark selected seats as booked
-                    st.session_state.booked.update(selected)
+            # Mark selected seats as booked
+                  st.session_state.booked.update(selected)
 
-                    # Uncheck booked seats
-                    for r, c in selected:
-                        st.session_state[f"cb_{r}_{c}"] = False
-
+            # Uncheck booked seats
+                for r, c in selected:
+                    st.session_state[f"cb_{r}_{c}"] = False
                     st.success("Thank you for your purchase!")
-                    st.rerun()
+                st.rerun()
 
-        # ---------------------------
-        # Pay Button
-        # ---------------------------
+# ---------------------------
+# Pay Button
+# ---------------------------
         if st.button("To Pay"):
             pay()

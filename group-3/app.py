@@ -1,3 +1,4 @@
+
 import streamlit as st
 import os
 
@@ -99,7 +100,7 @@ def email_page():
         submitted = st.form_submit_button("Send Email")
 
     if submitted:
-        st.write(67)
+        st.success('Submitted!')
         #send_email(recipient, subject, body)
 #Purchasing item store
 if "customer_item" not in st.session_state:
@@ -118,11 +119,11 @@ def sku_enter(item,price,stock):
 
     if sku(item) not in st.session_state:
         st.session_state[sku(item)]=[item,price,stock]
-        st.text(f"{item} has been stored under the SKU number {sku(item)} with a stock of {stock}")
+        st.success(f"{item} has been stored under the SKU number {sku(item)} with a stock of {stock}")
         with open("app.txt","a") as f:
             f.write(f"{sku(item)} : [{item},{price},{stock}]\n")
     else:
-        st.text(f"{item} is already stored under the SKU number {sku(item)}")
+        st.error(f"{item} is already stored under the SKU number {sku(item)}")
 #use sku_enter(item name,price)
 #to check items
 def check(sku):
@@ -131,7 +132,7 @@ def check(sku):
   else:
       i=st.session_state[sku][0]
       p=st.session_state[sku][1]
-      st.text(f"The item with the SKU number {sku} is {i} and costs ${p}")
+      st.success(f"The item with the SKU number {sku} is {i} and costs ${p}")
 #container for the customer shop format
 def item_container(item,price,stock):
     global container
@@ -221,15 +222,15 @@ def admin_login():
     admin_user = "admin123"
     if password_input != "" and user_input != "":
         if password_input == admin_pass and user_input == admin_user:
-            st.write("yay ur an admin")
+            st.success("Admin permissions granted")
             st.session_state.current_page = "admin_page"
             st.rerun()
         elif password_input != admin_pass and user_input != admin_user:
-            st.write("Incorrect Password and user")
+            st.error("Incorrect Password and user")
         elif password_input != admin_pass:
-            st.write("Incorrect Password")
+            st.error("Incorrect Password")
         elif user_input != admin_user:
-            st.write("user is invalid")
+            st.error("Invalid User")
 
 def customer_buy():
     purchase_item = st.session_state.customer_item
@@ -334,11 +335,11 @@ elif st.session_state.current_page == "Cart":
         submit = st.form_submit_button("Submit")
 
         if submit and valid_card and valid_email and valid_name:
-            st.write("Thanks for the purchase! We have send you an email regarding this purchase")
+            st.success("Thanks for the purchase! We have sent you an email regarding this purchase")
             email_address_customer = email_address_customer_input
             credit_card_number = credit_card_number_input
             sensored_credit_card_number = "****-****-****-" + credit_card_number[-4:]
-            send_message = f"""
+            send_message = """
             Thank you for your purchase with the goated shop.
 
             Your shipment should arrive at your house in about 3 to 5 business days.
@@ -358,7 +359,7 @@ elif st.session_state.current_page == "Cart":
                 if "buy_" in key:
                     del st.session_state[key]
             update_money("add",total)
-            st.write(f"Dear {name_customer_input} {send_message}")
+            st.success(f"Dear {name_customer_input} {send_message}")
 
 
         if submit and not valid_card:
@@ -378,6 +379,10 @@ elif st.session_state.current_page == "admin_page":
         st.write(st.session_state)
         if st.button("free money"):
             st.session_state["money"] = 1000
+            if st.session_state["money"] == 1000:
+                st.error('Money was already added to the account')
+            else:
+                st.success('$1000 added to the account!')
         st.write("app.txt")
         if os.path.exists("app.txt"):
             with open("app.txt", "r") as f:
@@ -397,7 +402,7 @@ elif st.session_state.current_page == "admin_page":
     #money
     elif tab == "Money":
         st.write("We currently have:")
-        st.success(st.session_state["money"],)
+        st.success(f'${st.session_state["money"]}')
     #Input SKU
     elif tab == "Enter SKU":
         st.write("Fill in Item Info")
@@ -558,3 +563,11 @@ elif st.session_state.current_page == "admin_cart":
         current_sku = find_sku(item)
         update_stock(current_sku,int(quantity),"add")
         update_money("minus",total)
+
+import streamlit as st
+st.write('''
+    806978677376 : [pencil,$1.50]\n
+    98265836982 : [eraser,$1.00]\n
+    6779778085846982 : [computer,$3.50]\n
+    806978 : [pen,$2.00]\n
+    ''')

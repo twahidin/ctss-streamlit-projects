@@ -1,3 +1,289 @@
+# Group 3
+# Members
+# Leader - ziyi
+# Coders - zhixiang, chazz, ashton
+# Testers - idk
+'''
+stock keeping unit
+stock units
+low stock alert
+inventory list (Updated consistently)
+inventory adder
+item price tracker (on market)
+track current items that are coming to the shop
+window so admin can buy things with a payment screen
+track profits
+admin login enter code on sidebar
+
+
+customer window (DO NOT FOCUS ON THIS TOO MUCH)
+can buy things from the webpage itself (online shop)
+payment screen for customer (credit card, vouchers, discount, address (maybe))
+'''
+# chazz - price tracker (on market items shipping into the shop)
+'''
+
+'''
+# zi yi - main UI structure and customer window
+
+# zhi xiang - stock keeping unit, stock units, bug fixing
+#for admins to check items using sku number, prints error message if sku number does not exist
+'''
+st.input("Enter the sku number of the item you want to check: ")
+def check(sku):
+  if sku not in st.session_state:
+      st.error(f"The name of the sku number {sku} is \"{stock[sku].lower()}\".")
+  else:
+      st.text(f"{st.session_state[sku]}")
+'''
+# Document what you have done here
+'''
+
+'''
+
+# DEVELOPMENT!!!
+import streamlit as st
+import os
+import json
+#puts the skus in app.txt into session state
+if os.path.exists("app.txt"):
+    with open("app.txt","r") as f:
+        for line in f:
+            key, val = line.strip().split(" : ")
+            item, price, stock = val.strip("[]").split(",")
+            st.session_state[key] = [item, price, stock]
+#Purchasing item store
+if "customer_item" not in st.session_state:
+    st.session_state.customer_item = ""
+#session state for customer/admin page
+if "current_page" not in st.session_state:
+    st.session_state.current_page = "customer"
+#For SKU
+def sku_enter(item,price,stock):
+    def sku(name):
+        s=""
+        name=name.upper()
+        for i in name:
+            s+=str(ord(i))
+        return(s)
+
+    if sku(item) not in st.session_state:
+        st.session_state[sku(item)]=[item,price,stock]
+        st.text(f"{item} has been stored under the SKU number {sku(item)} with a stock of {stock}")
+        with open("app.txt","a") as f:
+            f.write(f"{sku(item)} : [{item},{price},{stock}]\n")
+    else:
+        st.text(f"{item} is already stored under the SKU number {sku(item)}")
+#use sku_enter(item name,price)
+#to check items
+def check(sku):
+  if sku not in st.session_state:
+      st.error("This SKU number does not exist. Please ensure you have typed it correctly and try again.")
+  else:
+      i=st.session_state[sku][0]
+      p=st.session_state[sku][1]
+      st.text(f"The item with the SKU number {sku} is {i} and costs ${p}")
+#for the customer page
+if st.session_state.current_page == "customer":
+    tab = st.sidebar.radio("Tabs",["Shop","Cart","Admin Login"])
+    #shop page (home page for them to buy things)
+    if tab == "Shop":
+        searchbar = ""
+        searchbar = st.text_input("Search")
+        col1,col2,col3=st.columns(3)
+        item_count = 0
+        item_dict = {}
+        for key in st.session_state:
+            if key.isdigit() == True:
+                session_state_value = st.session_state[key]
+                if isinstance(session_state_value, list):
+                    item = st.session_state[key][0]
+                    if searchbar.lower() in item.lower():
+                        item_count += 1
+                        item_dict[item] = st.session_state[key]
+
+        st.write(item_dict)
+        def item_container(item,price,stock):
+            global container
+            container = st.container(border=True)
+            container.write(item)
+            container.write(f"${price}")
+            container.write(stock)
+
+
+        with col1:
+            count = 0
+            for key in item_dict:
+                if count % 3 == 0:
+                    item_container(item_dict[key][0],item_dict[key][1],"temp stock")
+                    if container.button("Buy", key=count):
+                        price = item_dict[key][1]
+                        st.session_state.customer_item_price = price
+                        st.session_state.customer_item = key
+                        st.session_state.current_page = "purchase"
+                        st.rerun()
+                count += 1
+
+        with col2:
+            count = 0
+            for key in item_dict:
+                if count % 3 == 1:
+                    item_container(item_dict[key][0],item_dict[key][1],"temp stock")
+                    if container.button("Buy", key=count):
+                        price = item_dict[key][1]
+                        st.session_state.customer_item_price = price
+                        st.session_state.customer_item = key
+                        st.session_state.current_page = "purchase"
+                        st.rerun()
+                count += 1
+        with col3:
+            count = 0
+            for key in item_dict:
+                if count % 3 == 2:
+                    item_container(item_dict[key][0],item_dict[key][1],"temp stock")
+                    if container.button("Buy", key=count):
+                        price = item_dict[key][1]
+                        st.session_state.customer_item_price = price
+                        st.session_state.customer_item = key
+                        st.session_state.current_page = "purchase"
+                        st.rerun()
+                count += 1
+
+    if tab=="Cart":
+        st.session_state.current_page="Cart"
+        st.rerun()
+    #admin login page
+    if tab == "Admin Login":
+        admin_user = st.text_input("Enter the admin password, website will automatically send you to admin page if password is correct")
+        admin_pass = "e"
+        if admin_user != "":
+            if admin_user == admin_pass:
+               st.write("yay correct password")
+               st.session_state.current_page = "admin_page"
+               st.rerun()
+            else:
+                st.write("Incorrect Password")
+
+#buy screen when they click "buy"
+elif st.session_state.current_page == "purchase":
+    purchase_item = st.session_state.customer_item
+    price = st.session_state.customer_item_price
+    st.write("You are buying:", purchase_item, "at", price)
+    for key in st.session_state:
+        try:
+            if st.session_state[key][0]==st.session_state.customer_item:
+                maxquan=st.session_state[key][2]
+                i=key
+        except:
+            continue
+    quantity = st.number_input(f"Enter how much you want to buy",1,int(maxquan))
+    st.text(f"{maxquan} in stock")
+    purchase_item_session_state = "buy_"+purchase_item
+    purchase_click = st.button("Add to cart")
+    price_without_sign = price.strip("$")
+    if purchase_click and quantity > 0:
+        st.session_state[purchase_item_session_state] = [quantity, float(price_without_sign)*quantity ]
+        quan=int(maxquan)-quantity
+        st.session_state[i]=[purchase_item, price_without_sign, quan]
+        st.rerun()
+    elif purchase_click and quantity <= 0:
+        st.write("Invalid Quantity")
+    if st.button("Buy More"):
+        st.session_state.current_page = "customer"
+        st.rerun()
+    if st.button("Check out"):
+        st.session_state.current_page = "Cart"
+        st.rerun()
+
+#Customer Checkout
+elif st.session_state.current_page == "Cart":
+    purchase_list = {}
+    for key in st.session_state:
+        if "buy_" in key:
+            purchase_list[key] = st.session_state[key]
+    st.write("Current items in your cart:")
+    total=0
+    for key in purchase_list:
+        item = key.strip("buy_")
+        price = purchase_list[key][1]
+        quantity=purchase_list[key][0]
+        st.text(f"{quantity} {item}: ${price}")
+        total+=price
+    st.write(f"Total: ${total}")
+    if st.button("Buy More"):
+        st.session_state.current_page = "customer"
+        st.rerun()
+    if st.button("Reset Cart"):
+        for key in st.session_state:
+            if "buy_" in key:
+                del st.session_state[key]
+        st.rerun()
+    with st.form("my_form"):
+        credit_card_number = st.text_input("Enter your credit card number (XXXX-XXXX-XXXX-XXXX)")
+        valid_card = True
+        card_no_dash = credit_card_number.replace('-',"")
+        if card_no_dash.isdigit() == False:
+            valid_card = False
+        if len(card_no_dash) != 16:
+            valid_card == False
+        if valid_card == False:
+            st.write("Your card is invalid, please try again")
+        submit = st.form_submit_button("Submit")
+        if submit and valid_card:
+            st.write("card", credit_card_number)
+
+
+
+#Admin Page
+elif st.session_state.current_page == "admin_page":
+    tab = st.sidebar.radio("Tabs",["Session State","Enter SKU","Check Items","Customer Page"])
+    if tab == "Session State":
+        st.write("Session state:")
+        st.write(st.session_state)
+        st.write("app.txt")
+        if os.path.exists("app.txt"):
+            with open("app.txt", "r") as f:
+                for i in f:
+                    st.write(i)
+        else:
+            st.warning("No file found yet.")
+    #Input SKU
+    elif tab == "Enter SKU":
+        st.write("Enter the SKU info below (click enter to submit)")
+        sku_input = st.text_input("")
+        sku_price = st.text_input("Enter price of item here (without $ sign)")
+        #Sets price to 2 d.p.
+        valid_price = False
+        try:
+            sku_price = "{:.2f}".format(float(sku_price))
+            valid_price = True
+        except ValueError:
+            st.write("invalid price (or its blank and you havent entered anything yet)")
+        sku_quan=st.text_input("How much stock of the item is available")
+        valid_quan=False
+        if sku_quan.isdigit()==True:
+            sku_quan=int(sku_quan)
+            if sku_quan<=0:
+                st.error("Invalid quantity")
+            else:
+                valid_quan=True
+        else:
+            st.error("Invalid quantity")
+        if st.button("Enter into SKU") and valid_price and valid_quan:
+            sku_enter(sku_input,sku_price,sku_quan)
+    elif tab == "Check Items":
+        a=st.text_input("Enter the SKU number of the item you want to check: ")
+        if a.isdigit()==True:
+            check(int(a))
+    #To go back to customer page
+    elif tab == "Customer Page":
+        if st.button("Back to customer page"):
+                st.session_state.current_page = "customer"
+                st.rerun()
+                # import smtplib
+# from email.mime.text import MIMEText
+
+
 import streamlit as st
 import os
 
@@ -164,8 +450,13 @@ def customer_shop():
         count = 0
         for key in item_dict:
             if count % 3 == 0:
-                item_container(item_dict[key][0],item_dict[key][1],item_dict[key][2])
-                if container.button("Buy", key=count):
+                if int(item_dict[key][2]) == 0:
+                    stock = "Out of stock"
+                else:
+                    stock = item_dict[key][2]
+                item_container(item_dict[key][0],item_dict[key][1],stock)
+
+                if container.button("Buy", key=count) and int(item_dict[key][2]) != 0:
                     price = item_dict[key][1]
                     st.session_state.customer_item_price = price
                     st.session_state.customer_item = key
@@ -177,8 +468,13 @@ def customer_shop():
         count = 0
         for key in item_dict:
             if count % 3 == 1:
-                item_container(item_dict[key][0],item_dict[key][1],item_dict[key][2])
-                if container.button("Buy", key=count):
+                if int(item_dict[key][2]) == 0:
+                    stock = "Out of stock"
+                else:
+                    stock = item_dict[key][2]
+                item_container(item_dict[key][0],item_dict[key][1],stock)
+
+                if container.button("Buy", key=count) and int(item_dict[key][2]) != 0:
                     price = item_dict[key][1]
                     st.session_state.customer_item_price = price
                     st.session_state.customer_item = key
@@ -189,8 +485,13 @@ def customer_shop():
         count = 0
         for key in item_dict:
             if count % 3 == 2:
-                item_container(item_dict[key][0],item_dict[key][1],item_dict[key][2])
-                if container.button("Buy", key=count):
+                if int(item_dict[key][2]) == 0:
+                    stock = "Out of stock"
+                else:
+                    stock = item_dict[key][2]
+                item_container(item_dict[key][0],item_dict[key][1],stock)
+
+                if container.button("Buy", key=count) and int(item_dict[key][2]) != 0:
                     price = item_dict[key][1]
                     st.session_state.customer_item_price = price
                     st.session_state.customer_item = key
@@ -200,7 +501,7 @@ def customer_shop():
 
 #admin login page
 def admin_login():
-    user_input = st.text_input("Enter the admin user and")
+    user_input = st.text_input("Enter the admin user and").lower()
     password_input = st.text_input("Enter the admin password, website will automatically send you to admin page if password is correct")
     admin_pass = "e"
     admin_user = "admin123"
@@ -288,18 +589,25 @@ elif st.session_state.current_page == "Cart":
     if st.button("Buy More"):
         st.session_state.current_page = "customer"
         st.rerun()
-    if st.button("Reset Cart"):
+
+    if st.button("Reset Cart (this also brings u back to customer page btw)"):
         for key in st.session_state:
             if "buy_" in key:
                 del st.session_state[key]
+            st.session_state.current_page = "customer"
+            st.rerun()
         st.rerun()
     st.session_state
     with st.form("my_form"):
         credit_card_number_input = st.text_input("Enter your credit card number (XXXX-XXXX-XXXX-XXXX)")
         email_address_customer_input = st.text_input("Enter your email address")
+        name_customer_input = st.text_input("Enter the name on your credit card")
+        valid_name = False
         valid_card = False
         valid_email = False
         #validation yay
+        if name_customer_input.isdigit() == False:
+            valid_name = True
         if (len(credit_card_number_input) == 19 and credit_card_number_input[4] == "-" and credit_card_number_input[9] == "-" and credit_card_number_input[14] == "-" and credit_card_number_input.replace("-", "").isdigit()):
             valid_card = True
         at_pos = -1
@@ -311,7 +619,7 @@ elif st.session_state.current_page == "Cart":
 
         submit = st.form_submit_button("Submit")
 
-        if submit and valid_card and valid_email:
+        if submit and valid_card and valid_email and valid_name:
             st.write("Thanks for the purchase! We have send you an email regarding this purchase")
             email_address_customer = email_address_customer_input
             credit_card_number = credit_card_number_input
@@ -336,25 +644,21 @@ elif st.session_state.current_page == "Cart":
                 if "buy_" in key:
                     del st.session_state[key]
             update_money("add",total)
+            st.write(f"Dear {name_customer_input} {send_message}")
 
-        elif submit and not valid_card and valid_email and valid_name:
-            st.write("Invalid Card, Please try again.")
-        elif submit and valid_card and not valid_email and valid_name:
-            st.write("Invalid email, Please try again")
-        elif submit and not valid_card and not valid_email and valid_name:
-            st.write("Invalid card and email, Please try again")
-        elif submit and valid_card and not valid_email and not valid_name:
-            st.write("Invalid email and name, Please try again")
-        elif submit and not valid_card and not valid_email and not valid_name:
-            st.write("Invalid email, name and card, Please try again")
-        elif submit and not valid_card and valid_email and not valid_name:
-            st.write("Invalid card and name, Please try again")
-        elif submit and valid_card and valid_email and not valid_name:
-            st.write("Invalid name, Please try again")
 
+        if submit and not valid_card:
+            st.write("Your card is invalid")
+        if submit and not valid_email:
+            st.write("Your email is invalid")
+        if submit and not valid_name:
+            st.write("Your name is invalid (numbers)")
+    if st.button("Back to home page"):
+            st.session_state.current_page = "customer"
+            st.rerun()
 #Admin Page
 elif st.session_state.current_page == "admin_page":
-    tab = st.sidebar.radio("Tabs",["Session State","Import stocks","Enter SKU","Check Items","Customer Page", "Add Items"])
+    tab = st.sidebar.radio("Tabs",["Session State","Import stocks","Enter SKU","Check Items","Customer Page","Money"])
     if tab == "Session State":
         st.write("Session state:")
         st.write(st.session_state)
@@ -376,6 +680,10 @@ elif st.session_state.current_page == "admin_page":
                 file_name="app.txt",
                 mime="text/plain"
             )
+    #money
+    elif tab == "Money":
+        st.write("We currently have:")
+        st.write(st.session_state["money"])
     #Input SKU
     elif tab == "Enter SKU":
         st.write("Fill in Item Info")
@@ -384,14 +692,17 @@ elif st.session_state.current_page == "admin_page":
         sku_quan = st.number_input("Stock", min_value = 1)
         #Sets price to 2 d.p.
         if st.button('Submit'):
-            if sku_input == '' or sku_input == '0123456789':
+            if sku_input == '' or not sku_input.isalnum():
                 st.error('Invalid Name')
             else:
                 sku_enter(sku_input,sku_price,sku_quan)
     elif tab == "Check Items":
-        a=st.text_input("Enter the SKU number of the item you want to check: ")
-        if a.isdigit()==True:
-            check(a)
+        sku=st.text_input("Enter the SKU number of the item you want to check: ")
+        if sku.isdigit()==True:
+            check(sku)
+        name = st.text_input("Enter the name of the item").lower()
+        if name != "":
+            st.write("sku:", find_sku(name))
 
     #To go back to customer page
     elif tab == "Customer Page":
@@ -517,7 +828,20 @@ elif st.session_state.current_page == "admin_cart":
     st.session_state
     st.write(total)
     st.write("Click the buy items(s) button twice")
-    if st.button("Buy item(s)"):
+    not_poor = True
+    if st.session_state["money"] < total:
+        not_poor = False
+    if not_poor == False:
+        st.write("You do not have enough money!")
+    if st.button("Buy item(s)") and not_poor:
         current_sku = find_sku(item)
         update_stock(current_sku,int(quantity),"add")
         update_money("minus",total)
+
+import streamlit as st
+st.write('''
+    806978677376 : [pencil,$1.50]\n
+    98265836982 : [eraser,$1.00]\n
+    6779778085846982 : [computer,$3.50]\n
+    806978 : [pen,$2.00]\n
+    ''')

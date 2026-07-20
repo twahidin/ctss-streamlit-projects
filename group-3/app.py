@@ -5,6 +5,7 @@ import os
 
 #puts the skus in app.txt into session state
 
+
 if "inventory_loaded" not in st.session_state:
     if os.path.exists("app.txt"):
         with open("app.txt","r") as f:
@@ -21,7 +22,7 @@ if "inventory_loaded" not in st.session_state:
             for line in f:
                 if line == "money":
                     key, val = line.strip().split(" : ")
-                    st.session_state["money"] = val
+                    st.session_state["money"] = int(val)
 
 
     st.session_state.inventory_loaded = True

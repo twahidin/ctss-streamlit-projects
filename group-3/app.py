@@ -22,7 +22,7 @@ if "inventory_loaded" not in st.session_state:
             for line in f:
                 if line == "money":
                     key, val = line.strip().split(" : ")
-                    st.session_state["money"] = int(val)
+                    st.session_state[key] = int(val)
 
 
     st.session_state.inventory_loaded = True

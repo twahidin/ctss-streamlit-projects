@@ -9,7 +9,7 @@ Original file is located at
 
 import streamlit as st
 from datetime import date
-import random
+import random as r
 import re
 
 st.markdown("""
@@ -75,6 +75,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
     st.session_state['SeatTemp']=0
     st.session_state['Customers']=[]
     st.session_state['SelectedSeats']=[]
+    st.rerun()
 
   if st.session_state['Submit']==0:
     AmountCustomer=int(st.number_input('amound of customer',step=1,min_value=1))
@@ -90,6 +91,15 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
       st.rerun()
 
   if st.session_state['Submit']==1:
+
+    if st.button('skip this (for testing the other things)'):
+      CustomersTemp=[]
+      for loop in range(st.session_state['AmountCustomer']):
+        CustomersTemp.append({'name':f'a{loop}jni{loop}{loop}afj{loop}{loop}{loop}ib{loop}jh{loop}','country':f'{loop}','phone':f'{loop}','email':f'{loop}','passport':f'{loop}'})
+      st.session_state['Customers']=CustomersTemp
+      st.session_state['Submit']=2
+      st.rerun()
+
     CustomersTemp=[]
     for loop in range(st.session_state.AmountCustomer):
       st.title(f'please key in your details for free steeling(customer{loop+1})')
@@ -138,13 +148,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
       else:
         st.error(f"screw you ({' + '.join(errors)})")
 
-    if st.button('skip this (for testing the other things)'):
-      CustomersTemp=[]
-      for loop in range(st.session_state['AmountCustomer']):
-        CustomersTemp.append({'name':f'a{loop}jni{loop}{loop}afj{loop}{loop}{loop}ib{loop}jh{loop}','country':f'{loop}','phone':f'{loop}','email':f'{loop}','passport':f'{loop}'})
-      st.session_state['Customers']=CustomersTemp
-      st.session_state['Submit']=2
-      st.rerun()
+
 
     if len(CustomersTemp)==st.session_state['AmountCustomer']:
       if st.button('sumbmit2'):
@@ -164,6 +168,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
       #  st.balloons()
       #return(st.session_state['Customers'])
       st.session_state['Submit']=3
+      st.rerun()
     else:
       st.title(f'select seat for {st.session_state['Customers'][st.session_state['SeatTemp']]['name']} (customer{st.session_state['SeatTemp']+1})')
       SeatColAmount=6
@@ -177,12 +182,18 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
                 (st.session_state['Customers'][st.session_state['SeatTemp']])['seat']=f'{chr(ord('a')+LoopCol)}{LoopRow+1}'
                 st.session_state['SelectedSeats'].append(f'{chr(ord('a')+LoopCol)}{LoopRow+1}')
                 st.session_state['SeatTemp']+=1
+                st.rerun()
 
   if st.session_state['Submit']==3:
     st.title(f'crebit card steel (pay ${(13500000 if st.session_state.page_state == 'ship_plane_page' else 0)+(len(st.session_state['SelectedSeats'])*2500)})')
-    if st.button('optional minigame'):
-      st.session_state['funnyminigame']=[0,0,0,0,0,0,0,0,0,0]#all of the variables used for it is stored here (so thrre arent 200 varaibles)[page,paid,owed,lostmoney(temp),1,5,10,20,50,100]
-      st.session_state['Submit']=4
+    a,b=st.columns(2)
+    with a:
+      if st.button('optional minigame'):
+        st.session_state['funnyminigame']=[0,0,0,0,0,0,0,0,0,0]#all of the variables used for it is stored here (so thrre arent 200 varaibles)[page,paid,owed,lostmoney(temp),1,5,10,20,50,100]
+        st.session_state['Submit']=4
+        st.rerun()
+    with b:
+      st.write('(its not optional rn casue I havent added another button)')
     pay=[]
     errors=[]
     pay.append(st.text_input('16 digit thing',placeholder='1234567812345678'))
@@ -214,8 +225,9 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
     with back:
       if st.button('go back (it resets your progress on the minigame btw)'):
         st.session_state['Submit']=3
+        st.rerun()
     with paymonies:
-      if st.button('pay'):
+      if st.button('pay monies page'):
        st.session_state['funnyminigame'][0]=0
     with atm:
       if st.button('atm page'):
@@ -235,7 +247,7 @@ def SeatSel():#it returns a dictionary with name phone and email and seat
         def paymore(mone):
           st.session_state['funnyminigame'][2]+=mone
           st.write(f'you lost ${mone} (you have to pay {mone}$ more)')
-        paymore(random.randint(2,10)**random.randint(100,870258028052))
+        paymore(r.randint(2,10)**r.randint(100,870258028052))
       st.image('https://play-lh.googleusercontent.com/rsb_w6tzJdDXLY_4N56cQ5ibD0E1WYIi1x07xvus2p9Zegscml3c4cfEbKn9MXMtZF3O20H9TC2Tcy3bySDtFQ=w480-h960-rw')
 
 SeatSel()

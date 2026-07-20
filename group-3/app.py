@@ -563,11 +563,3 @@ elif st.session_state.current_page == "admin_cart":
         current_sku = find_sku(item)
         update_stock(current_sku,int(quantity),"add")
         update_money("minus",total)
-
-import streamlit as st
-st.write('''
-    806978677376 : [pencil,$1.50]\n
-    98265836982 : [eraser,$1.00]\n
-    6779778085846982 : [computer,$3.50]\n
-    806978 : [pen,$2.00]\n
-    ''')

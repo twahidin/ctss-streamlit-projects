@@ -4,6 +4,7 @@ import os
 
 
 #puts the skus in app.txt into session state
+
 if "inventory_loaded" not in st.session_state:
     if os.path.exists("app.txt"):
         with open("app.txt","r") as f:
@@ -17,6 +18,11 @@ if "inventory_loaded" not in st.session_state:
                     st.session_state[key] = [item, price,stock]
                 except ValueError:
                     st.session_state[key] = val
+            for line in f:
+                if line == "money":
+                    key, val = line.strip().split(" : ")
+                    st.session_state["money"] = val
+
 
     st.session_state.inventory_loaded = True
 #save app.txt
@@ -54,6 +60,7 @@ def update_money(operation,change):
         st.session_state["money"] = current+change
     elif operation == "minus":
         st.session_state["money"] = current-change
+    save_txt()
 
 #update stock
 def update_stock(sku,change,operation):
@@ -378,11 +385,13 @@ elif st.session_state.current_page == "admin_page":
         st.write("Session state:")
         st.write(st.session_state)
         if st.button("free money"):
-            st.session_state["money"] = 1000
-            if st.session_state["money"] == 1000:
-                st.error('Money was already added to the account')
+
+            if "money" in st.session_state:
+                st.error('Money does not grow on trees.')
             else:
+                st.session_state["money"] = 1000
                 st.success('$1000 added to the account!')
+
         st.write("app.txt")
         if os.path.exists("app.txt"):
             with open("app.txt", "r") as f:
@@ -430,6 +439,7 @@ elif st.session_state.current_page == "admin_page":
             sku = find_sku(item_remove)
             st.session_state.pop(sku)
             st.success("Success!")
+            save_txt()
     #To go back to customer page
     elif tab == "Customer Page":
         if st.button("Back to customer page"):

@@ -59,7 +59,7 @@ else:
         st.write("Since I was a kid, I was fascinated with movies. It opened me to a whole new world\n")
         st.write("**The world of unlimited creations. Yay**")
 
-        movies = ["Gaydiens of the gaylaxia", "Bad", "GATf"]
+        movies = ["Gaydiens of the gaylaxia", "Bad", "GATief"]
 
         movies_info = {
             "Gaydiens of the gaylaxia": "A group of space heroes protect the galaxy from evil forces.",

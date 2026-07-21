@@ -1,297 +1,74 @@
-
 import streamlit as st
 
-st.title("Welcome {username}", text_alignment = "center")
+def ValidateType(a, myType:type):
+    try:
+        myType(a)
+        return True
+    except:
+        return False
 
-st.html(
-"""
-<style>
-/* Remove default Streamlit top padding */
-.block-container {
-    padding-top: 2rem !important;
-    padding-bottom: 0rem !important;
-}
+def ValidateError(a, myfunc):
+    try:
+        myfunc(a)
+        return True
+    except:
+        return False
 
-/* Center container layout for the reward card */
-.center-card-wrapper {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin: 20px 0 40px 0 !important;
-    font-family: sans-serif;
-}
+Page, Reciept = st.columns([2,1])
 
-/* The White Card Layout */
-.reward-card {
-    background: white !important;
-    border-radius: 16px !important;
-    border: 1px solid #E0E0E0 !important; /* Added subtle border since the green background is gone */
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08) !important;
-    width: 100% !important;
-    max-width: 500px !important;
-    padding: 22px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-}
+with Page:
 
-.card-left {
-    display: flex !important;
-    align-items: center !important;
-    gap: 20px !important;
-}
+    col1, col2 = st.columns(2)
+    first_name = col1.text_input("", placeholder = "First name")
+    last_name = col2.text_input("", placeholder = "Last name")
+    email = st.text_input("Email", placeholder = "my.email@gmail.com")
+    credit_card = st.text_input("credit card number", max_chars = 8)
+    col3, col4 = st.columns(2)
+    cvc = col3.text_input("cvc", max_chars = 3)
+    expiry = col4.text_input("Expiry date", value = "mm/yy", max_chars = 5)
+    promo_code = st.text_input("promo code", max_chars = 6)
+    bundleContainer = st.container(border = True)
+    with bundleContainer:
+        st.title("Get food bundles!")
+        st.markdown("*_its cheaper!_*")
+        col5, col6 = st.columns(2)
+        col5.image("https://rrojin.tistory.com/m/77")
+        col6.image("data:image/png;base64,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")
+        buttonBuy = st.button("Buy Now!", type = "primary", help = "BUYBUYBUY")
 
-.trophy-circle {
-    background-color: #FFF3E0 !important;
-    width: 75px !important;
-    height: 75px !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 42px !important;
-}
-
-.points-text {
-    text-align: left !important;
-}
-
-.points-number {
-    color: #FFB300 !important;
-    font-size: 46px !important;
-    font-weight: 800 !important;
-    line-height: 1 !important;
-}
-
-.points-label {
-    color: #444444 !important;
-    font-size: 22px !important;
-    font-weight: 600 !important;
-}
-
-.coin-stack {
-    font-size: 55px !important;
-    display: flex !important;
-}
-</style>
-"""
-)
-st.html(
-"""
-<div class="center-card-wrapper">
-<div class="reward-card">
-<div class="card-left">
-<div class="trophy-circle">🏆</div>
-<div class="points-text">
-<div class="points-number">4560</div>
-<div class="points-label">Points</div>
-</div>
-</div>
-"""
-)
-
-if "cart" not in st.session_state:
-        st.session_state.cart = {}
+with Reciept:
+    a = st.container(border = True)
+    with a:
+        st.title("Reciept")
+        st.space("stretch")
+        st.write("")
+    a = st.button("submit")
+if a:
+  try:
+    if not first_name:
+      st.error("please enter first name!")
+      raise Exception()
+    if not last_name:
+      st.error("please enter last name!")
+      raise Exception()
+    if email.strip("@.") != email or not email:
+      st.error("please enter a valid e-mail address!")
+      raise Exception()
+    if not ValidateType(credit_card, int):
+      st.error("please put in numbers for the credit card number")
+      raise Exception()
+    if len(credit_card) < 8:
+      st.error("please input a valid credit card number!")
+      raise Exception()
+    if not ValidateType(cvc, int):
+      st.error("please input a valid CVC number!")
+      raise Exception()
+    if not ValidateError(expiry, eval):
+      st.error("please input a valid expiry date!")
+      raise Exception()
+    else:
+      st.success("successful purchase!")
+  except Exception:
+      print("spoilage")
 
 
-def add_to_cart(item):
-    if item not in st.session_state.cart:
-        st.session_state.cart[item] = 0
-    st.session_state.cart[item] += 1
-def remove_from_cart(item):
-    if item not in st.session_state.cart:
-        st.session_state.cart[item] = 0
-    st.session_state.cart[item] -= 1
-
-st.markdown("""
-<style>
-.st-key-redeem_button button p {
-    font-family: times-new-roman;
-
-}
-
-.st-key-add-PopCorn button{
-    background-color: rgb(255, 75, 75)
-}
-
-.st-key-remove-PopCorn button{
-    background-color: rgb(75, 75, 255)
-
-}
-
-.st-key-add-PopCorn button p{
-    color: white;
-    font-family: comic-sans;
-}
-
-.st-key-remove-PopCorn button p{
-    color: white;
-    font-family: comic-sans;
-
-}
-
-
-
-.st-key-marquee-content {
-    position: absolute;
-    top: 100%;
-    animation: vertical-marquee 5s linear infinite;
-    transition: animation-duration 0.5s ease;
-}
-
-
-@keyframes vertical-marquee {
-    0% {
-        top: 5000px;
-    }
-    100% {
-        top: -5000px; /* Adjust based on the number of lines */
-    }
-}
-
-/* Slow on Hover */
-.st-key-vertical-marquee:hover .st-key-marquee-content {
-    animation-duration: 15s;
-}
-
-
-</style>
-
-            """, unsafe_allow_html=True)
-
-st.markdown("""
-
-<style>
-.st-key-home_header_buttons_PopCorn {
-  display: flex;
-}
-
-.st-key-home_header_buttons_PopCorn .btn_home {
-  position: relative;
-}
-
-.st-key-home_header_buttons_PopCorn .add-PopCorn {
-
-  border-right: none;
-}
-
-.st-key-home_header_buttons_PopCorn .remove-PopCorn {
-
-  height: 90%;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 0;
-  z-index: 1;
-}
-
-.st-key-home_header_buttons_PopCorn .remove-PopCorn button {
-
-
-}
-        </style>
-
-            """, unsafe_allow_html=True)
-
-
-st.markdown("""
-<style>
-/* Target the popover with key 'redeem_button' and the container keys for each item */
-.st-key-redeem_button .st-key-add-PopCorn button {
-        border: 2px solid rgba(0,0,0,0.12);
-        border-radius: 6px;
-        position: relative; /* modify position only */
-        top: 0; /* adjust vertical alignment here if needed */
-}
-
-.st-key-redeem_button .st-key-remove-PopCorn button {
-        border: 2px solid rgba(0,0,0,0.12);
-        border-radius: 6px;
-        position: relative; /* modify position only */
-        top: 0; /* adjust vertical alignment here if needed */
-        right: 0; /* adjust horizontal alignment if necessary */
-}
-</style>
-""", unsafe_allow_html=True)
-
-biggest1, biggest2 = st.columns([7,3])
-with biggest1:
-    a = st.popover("_REDEEM_", key = "redeem_button", help = "CLICK TO REDEEM SELECTED ITEMS", type = 'primary', use_container_width = True, width = "stretch")
-
-    for i, k in st.session_state.cart.items():
-        if k > 0:
-            with a.container(horizontal = True):
-                st.markdown(f"<p style='font-family: comic-sans';>{i} x{k}</p>", unsafe_allow_html=True)
-                with st.container(horizontal = True, key = f"home_header_buttons_{i}"):
-                    st.button("+", key = f"add {i}", on_click = lambda: add_to_cart(i))
-                    st.button("-", key = f"remove {i}", on_click = lambda: remove_from_cart(i))
-
-    with st.container(border = True):
-        st.markdown("<h3>ALL REDEEMABLE ITEMS</h3>", unsafe_allow_html=True)
-        row1 = st.columns(3)
-        row2 = st.columns(3)
-        row3 = st.columns(3)
-        for col in row1 + row2 + row3:
-
-            tile = col.container(border = True)
-            tile.write("PopCorn: 100 points")
-            tile.image("https://tse2.mm.bing.net/th/id/OIP.Ywp9n6YB71vskStlgD10bAHaJ8?rs=1&pid=ImgDetMain&o=7&rm=3")
-            tile.button("add to cart", key = f"add_to_cart_{col}", help = "CLICK TO ADD ITEM TO CART", type = 'primary', on_click = lambda: add_to_cart("PopCorn"))
-
-with biggest2:
-    biggest_container = st.container(border = True, height = 1085, autoscroll = True, key = "Vert")
-    with biggest_container:
-        st.html(
-        """
-        <style>
-        .full-width-title-container {
-            width: 100% !important;
-            display: block !important;
-            text-align: left !important; /* Change to center if you want it in the middle */
-            margin: 25px 0 15px 0 !important;
-            font-family: sans-serif;
-        }
-
-        .enlarged-title {
-            font-size: 36px !important;  /* Controls the visual size of the words */
-            font-weight: 800 !important;  /* Makes it bold and prominent */
-            color: #111111 !important;    /* Clean dark text color */
-            margin: 0 !important;
-            padding: 0 !important;
-            line-height: 1.2 !important;
-        }
-        </style>
-        """
-        )
-
-        # 2. Render the element (Keep it left-aligned against the code margin to avoid markdown bugs)
-        st.html(
-        """
-        <div class="full-width-title-container">
-        <h2 class="enlarged-title">Featured Items</h2>
-        </div>
-        """
-        )
-        container_items1 = st.container(border = True, key = "container_items_1")
-        with container_items1:
-            st.write("PopCorn: 100 points")
-            st.image("https://tse2.mm.bing.net/th/id/OIP.Ywp9n6YB71vskStlgD10bAHaJ8?rs=1&pid=ImgDetMain&o=7&rm=3")
-            st.button("add to cart", help = "CLICK TO ADD ITEM TO CART", type = 'primary', on_click = lambda: add_to_cart("PopCorn"), key = "qjwifvnipq")
-
-        container_items2 = st.container(border = True, key = "container_items_2")
-        with container_items2:
-            st.write("PopCorn: 100 points")
-            st.image("https://tse2.mm.bing.net/th/id/OIP.Ywp9n6YB71vskStlgD10bAHaJ8?rs=1&pid=ImgDetMain&o=7&rm=3")
-            st.button("add to cart", help = "CLICK TO ADD ITEM TO CART", type = 'primary', on_click = lambda: add_to_cart("PopCorn"), key = "neuhfiusvboiea")
-
-        container_items3 = st.container(border = True, key = "container_items_3")
-        with container_items3:
-            st.write("PopCorn: 100 points")
-            st.image("https://tse2.mm.bing.net/th/id/OIP.Ywp9n6YB71vskStlgD10bAHaJ8?rs=1&pid=ImgDetMain&o=7&rm=3")
-            st.button("add to cart", help = "CLICK TO ADD ITEM TO CART", type = 'primary', on_click = lambda: add_to_cart("PopCorn"), key = "ihewiovbwieo")
-
-        container_items4 = st.container(border = True, key = "container_items_4")
-        with container_items4:
-            st.write("PopCorn: 100 points")
-            st.image("https://tse2.mm.bing.net/th/id/OIP.Ywp9n6YB71vskStlgD10bAHaJ8?rs=1&pid=ImgDetMain&o=7&rm=3")
-            st.button("add to cart", help = "CLICK TO ADD ITEM TO CART", type = 'primary', on_click = lambda: add_to_cart("PopCorn"), key = "okwengiwqhgoq")

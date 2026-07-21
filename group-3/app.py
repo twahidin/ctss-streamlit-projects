@@ -562,7 +562,7 @@ elif st.session_state.current_page == "admin_cart":
             if "admin_buy_" in key:
                 del st.session_state[key]
         st.rerun()
-    st.session_state
+
     st.write(total)
     not_poor = True
     if st.session_state["money"] < total:

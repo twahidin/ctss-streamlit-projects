@@ -1,6 +1,6 @@
-
 import streamlit as st
 import os
+from datetime import date
 
 
 #puts the skus in app.txt into session state
@@ -12,17 +12,16 @@ if "inventory_loaded" not in st.session_state:
             for line in f:
                 if " : " not in line:
                     continue
+
                 key, val = line.strip().split(" : ")
+                if key == "money":
+                    st.session_state[key] = int(val)
                 try:
                     int(key)
                     item, price, stock = val.strip("[]").split(",")
                     st.session_state[key] = [item, price,stock]
                 except ValueError:
                     st.session_state[key] = val
-            for line in f:
-                if line == "money":
-                    key, val = line.strip().split(" : ")
-                    st.session_state[key] = int(val)
 
 
     st.session_state.inventory_loaded = True
@@ -138,9 +137,10 @@ def check(sku):
   if sku not in st.session_state:
       st.error("This SKU number does not exist. Please ensure you have typed it correctly and try again.")
   else:
-      i=st.session_state[sku][0]
-      p=st.session_state[sku][1]
-      st.success(f"The item with the SKU number {sku} is {i} and costs ${p}")
+      name=st.session_state[sku][0]
+      price =st.session_state[sku][1]
+      stock = st.session_state[sku][2]
+      st.success(f"The item with the SKU number {sku} is {name} and costs ${price}, and we have {stock} left")
 #container for the customer shop format
 def item_container(item,price,stock):
     global container
@@ -325,57 +325,73 @@ elif st.session_state.current_page == "Cart":
         credit_card_number_input = st.text_input("Enter your credit card number (XXXX-XXXX-XXXX-XXXX)")
         email_address_customer_input = st.text_input("Enter your email address")
         name_customer_input = st.text_input("Enter the name on your credit card")
-        valid_name = False
-        valid_card = False
-        valid_email = False
-        #validation yay
-        if name_customer_input.isdigit() == False:
-            valid_name = True
-        if (len(credit_card_number_input) == 19 and credit_card_number_input[4] == "-" and credit_card_number_input[9] == "-" and credit_card_number_input[14] == "-" and credit_card_number_input.replace("-", "").isdigit()):
-            valid_card = True
-        at_pos = -1
-        dot_pos = -1
-        at_pos = email_address_customer_input.find("@")
-        dot_pos = email_address_customer_input.find(".")
-        if not at_pos < 1 and not dot_pos < 1 and dot_pos > at_pos:
-            valid_email = True
-
+        exp_date_input = st.date_input("Enter your credit card expiry date",min_value = date.today())
+        cvc_input = st.text_input("Enter your 3 digit cvc/ccv number here")
         submit = st.form_submit_button("Submit")
+        if submit:
+            valid_name = False
+            valid_card = False
+            valid_email = False
+            valid_expiry = False
+            valid_cvc = False
+            #10000 validations
+            if len(cvc_input) == 3 and cvc_input.isdigit() == True:
+                valid_cvc = True
+            if exp_date_input >= date.today():
+                valid_expiry = True
+            if name_customer_input.isdigit() == False and name_customer_input != "":
+                valid_name = True
+            if (len(credit_card_number_input) == 19 and credit_card_number_input[4] == "-" and credit_card_number_input[9] == "-" and credit_card_number_input[14] == "-" and credit_card_number_input.replace("-", "").isdigit()):
+                valid_card = True
+            at_pos = -1
+            dot_pos = -1
+            at_pos = email_address_customer_input.find("@")
+            dot_pos = email_address_customer_input.find(".")
+            if not at_pos < 1 and not dot_pos < 1 and dot_pos > at_pos:
+                valid_email = True
 
-        if submit and valid_card and valid_email and valid_name:
-            st.success("Thanks for the purchase! We have sent you an email regarding this purchase")
-            email_address_customer = email_address_customer_input
-            credit_card_number = credit_card_number_input
-            sensored_credit_card_number = "****-****-****-" + credit_card_number[-4:]
-            send_message = """
-            Thank you for your purchase with the goated shop.
 
-            Your shipment should arrive at your house in about 3 to 5 business days.
+            if valid_cvc and valid_card and valid_email and valid_name and valid_expiry:
+                #st.success("Thanks for the purchase! We have sent you an email regarding this purchase")
+                email_address_customer = email_address_customer_input
+                credit_card_number = credit_card_number_input
+                sensored_credit_card_number = "****-****-****-" + credit_card_number[-4:]
+                send_message = f"""
+                Thank you for your purchase with the goated shop.
 
-            If you encounter any enquiries, feel free to contact us at 67676767.
+                Your shipment should arrive at your house in about 3 to 5 business days.
 
-            The credit card number you inputted is {sensored_credit_card_number}
-            """
-            #send_email(email_address_customer, "Purchase with the goated shop", send_message)
-            for key in st.session_state:
-                if "buy_" in key:
-                    buy_list = st.session_state[key]
-                    quantity = buy_list[0]
-                    sku = buy_list[2]
-                    update_stock(sku,quantity,"minus")
-            for key in st.session_state:
-                if "buy_" in key:
+                If you encounter any enquiries, feel free to contact us at 67676767.
+
+                The credit card number you inputted is {sensored_credit_card_number}
+                """
+                #send_email(email_address_customer, "Purchase with the goated shop", send_message)
+                keys_to_delete = []
+
+                for key in st.session_state:
+                    if "buy_" in key:
+                        buy_list = st.session_state[key]
+                        quantity = buy_list[0]
+                        sku = buy_list[2]
+                        update_stock(sku, quantity, "minus")
+                        keys_to_delete.append(key)
+
+                for key in keys_to_delete:
                     del st.session_state[key]
-            update_money("add",total)
-            st.success(f"Dear {name_customer_input} {send_message}")
+                    update_money("add",total)
+                st.success(f"Dear {name_customer_input} {send_message}")
 
 
-        if submit and not valid_card:
-            st.write("Your card is invalid")
-        if submit and not valid_email:
-            st.write("Your email is invalid")
-        if submit and not valid_name:
-            st.write("Your name is invalid (numbers)")
+            if not valid_card:
+                st.write("Your card is invalid")
+            if not valid_email:
+                st.write("Your email is invalid")
+            if not valid_name:
+                st.write("Your name is invalid (numbers)")
+            if not valid_expiry:
+                st.write("Your expiry date is invalid")
+            if not valid_cvc:
+                st.write("Your cvc/ccv number is invalid")
     if st.button("Back to home page"):
             st.session_state.current_page = "customer"
             st.rerun()
@@ -420,11 +436,13 @@ elif st.session_state.current_page == "admin_page":
         sku_price = st.number_input("Price of Item", min_value = 0.01, format = "%0.2f")
         sku_quan = st.number_input("Stock", min_value = 1)
         #Sets price to 2 d.p.
+        sku_input_no_space = sku_input.replace(" ","")
         if st.button('Submit'):
-            if sku_input == '' or not sku_input.isalnum():
+            if sku_input == '' or not sku_input_no_space.isalnum():
                 st.error('Invalid Name')
             else:
                 sku_enter(sku_input,sku_price,sku_quan)
+    #check SKU
     elif tab == "Check Items":
         sku=st.text_input("Enter the SKU number of the item you want to check: ")
         if sku.isdigit()==True:
@@ -564,7 +582,6 @@ elif st.session_state.current_page == "admin_cart":
         st.rerun()
     st.session_state
     st.write(total)
-    st.write("Click the buy items(s) button twice")
     not_poor = True
     if st.session_state["money"] < total:
         not_poor = False
@@ -574,3 +591,4 @@ elif st.session_state.current_page == "admin_cart":
         current_sku = find_sku(item)
         update_stock(current_sku,int(quantity),"add")
         update_money("minus",total)
+        st.rerun()

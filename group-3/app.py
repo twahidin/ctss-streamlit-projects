@@ -165,7 +165,7 @@ def customer_shop():
                     item_count += 1
                     item_dict[item] = st.session_state[key]
 
-    st.write(item_dict)
+
 
 
 
@@ -320,7 +320,6 @@ elif st.session_state.current_page == "Cart":
             st.session_state.current_page = "customer"
             st.rerun()
         st.rerun()
-    st.session_state
     with st.form("my_form"):
         credit_card_number_input = st.text_input("Enter your credit card number (XXXX-XXXX-XXXX-XXXX)")
         email_address_customer_input = st.text_input("Enter your email address")
@@ -409,22 +408,7 @@ elif st.session_state.current_page == "admin_page":
                 st.session_state["money"] = 1000
                 st.success('$1000 added to the account!')
 
-        st.write("app.txt")
-        if os.path.exists("app.txt"):
-            with open("app.txt", "r") as f:
-                for i in f:
-                    st.write(i)
-        else:
-            st.warning("No file found yet.")
-        if os.path.exists("app.txt"):
-            with open("app.txt", "r") as f:
-                file_contents = f.read()
-            st.download_button(
-                label="Download app.txt",
-                data=file_contents,
-                file_name="app.txt",
-                mime="text/plain"
-            )
+
     #money
     elif tab == "Money":
         st.write("We currently have:")
@@ -479,8 +463,6 @@ elif st.session_state.current_page == "admin_page":
                     if searchbar.lower() in item.lower():
                         item_count += 1
                         item_dict[item] = st.session_state[key]
-
-        st.write(item_dict)
         def item_container(item,price,stock):
             global container
             container = st.container(border=True)

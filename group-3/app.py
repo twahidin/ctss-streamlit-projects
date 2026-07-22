@@ -152,7 +152,7 @@ def item_container(item,price,stock):
 #customer shop code
 def customer_shop():
     searchbar = ""
-    searchbar = st.text_input("Search")
+    searchbar = st.text_input("Search", placeholder = 'Search Items')
     col1,col2,col3=st.columns(3)
     item_count = 0
     item_dict = {}
@@ -224,8 +224,8 @@ def customer_shop():
 
 #admin login page
 def admin_login():
-    user_input = st.text_input("Enter the admin user and").lower()
-    password_input = st.text_input("Enter the admin password, website will automatically send you to admin page if password is correct")
+    user_input = st.text_input("Admin Username", placeholder = 'Admin Username').lower()
+    password_input = st.text_input("Password", placeholder = 'Password')
     admin_pass = "e"
     admin_user = "admin123"
     if password_input != "" and user_input != "":
@@ -321,11 +321,11 @@ elif st.session_state.current_page == "Cart":
             st.rerun()
         st.rerun()
     with st.form("my_form"):
-        credit_card_number_input = st.text_input("Enter your credit card number (XXXX-XXXX-XXXX-XXXX)")
-        email_address_customer_input = st.text_input("Enter your email address")
-        name_customer_input = st.text_input("Enter the name on your credit card")
-        exp_date_input = st.date_input("Enter your credit card expiry date",min_value = date.today())
-        cvc_input = st.text_input("Enter your 3 digit cvc/ccv number here")
+        credit_card_number_input = st.text_input("Credit Card Number", placeholder = 'XXXX-XXXX-XXXX-XXXX')
+        email_address_customer_input = st.text_input("Email", placeholder = 'Email')
+        name_customer_input = st.text_input("Name on Card", placeholder = 'Name')
+        exp_date_input = st.date_input("Expiry Date",min_value = date.today())
+        cvc_input = st.text_input("CVV/CCV", placeholder = 'CVV/CCV')
         submit = st.form_submit_button("Submit")
         if submit:
             valid_name = False
@@ -417,8 +417,8 @@ elif st.session_state.current_page == "admin_page":
     elif tab == "Enter SKU":
         st.write("Fill in Item Info")
         sku_input = st.text_input("Name of Item", placeholder = "Name")
-        sku_price = st.number_input("Price of Item", min_value = 0.01, format = "%0.2f")
-        sku_quan = st.number_input("Stock", min_value = 1)
+        sku_price = st.number_input("Price of Item", min_value = 0.01, format = "%0.2f", placeholder = 'Price')
+        sku_quan = st.number_input("Stock", min_value = 1, placeholder = 'Stock')
         #Sets price to 2 d.p.
         sku_input_no_space = sku_input.replace(" ","")
         if st.button('Submit'):
@@ -428,16 +428,16 @@ elif st.session_state.current_page == "admin_page":
                 sku_enter(sku_input,sku_price,sku_quan)
     #check SKU
     elif tab == "Check Items":
-        sku=st.text_input("Enter the SKU number of the item you want to check: ")
+        sku=st.text_input("Enter the SKU number of the item you want to check: ", placeholder = 'SKU')
         if sku.isdigit()==True:
             check(sku)
-        name = st.text_input("Enter the name of the item").lower()
+        name = st.text_input("Enter the name of the item", placeholder = 'Item Name').lower()
         if name != "":
             st.write("sku:", find_sku(name))
 
     #remove sku
     elif tab == "Remove SKU":
-        item_remove = st.text_input("Enter the exact name of the item that you would wish to delete")
+        item_remove = st.text_input("Exact Name of Item", placeholder = 'Item Name')
         if item_remove != "":
             sku = find_sku(item_remove)
             st.session_state.pop(sku)
@@ -451,7 +451,7 @@ elif st.session_state.current_page == "admin_page":
 
     elif tab == "Import stocks":
         searchbar = ""
-        searchbar = st.text_input("Search")
+        searchbar = st.text_input("Search", placeholder = 'Search Items')
         col1,col2,col3=st.columns(3)
         item_count = 0
         item_dict = {}
